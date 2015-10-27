@@ -101,8 +101,8 @@ namespace SpajsFajt
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(TextureManager.GameFont, lowerBoundColor.ToString(), new Vector2(Position.X, Position.Y - 100), Color.White,0f,Vector2.Zero,1f,SpriteEffects.None,1f);
-            spriteBatch.DrawString(TextureManager.GameFont, upperBoundColor.ToString(), new Vector2(Position.X, Position.Y - 120), Color.White,0f,Vector2.Zero,1f,SpriteEffects.None,1f);
+            //spriteBatch.DrawString(TextureManager.GameFont, lowerBoundColor.ToString(), new Vector2(Position.X, Position.Y - 100), Color.White,0f,Vector2.Zero,1f,SpriteEffects.None,1f);
+            //spriteBatch.DrawString(TextureManager.GameFont, upperBoundColor.ToString(), new Vector2(Position.X, Position.Y - 120), Color.White,0f,Vector2.Zero,1f,SpriteEffects.None,1f);
 
             base.Draw(spriteBatch);
         }

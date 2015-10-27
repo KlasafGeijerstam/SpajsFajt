@@ -13,7 +13,12 @@ namespace SpajsFajt
     {
         public NetConnection  Connection {get;set;}
         private float speed = 2f;
-        
+        public int Health { get; set; }
+        public float LastDamageTaken
+        {
+            get; set;
+        }
+
         private float rotSpeed = 0.1f;
         private float rotationOffset = (float)Math.PI / 2;
         private Rectangle playerRectangle = new Rectangle(0, 0, 50, 50);
@@ -24,8 +29,10 @@ namespace SpajsFajt
         public Player(int id):
             base("shipPlayer",id)
         {
-            
+            Health = 70;
             origin = new Vector2(textureRectangle.Width / 2, textureRectangle.Height / 2);
+            collisionRectangle.Width = 39;
+            collisionRectangle.Height = 36;
         }
 
 

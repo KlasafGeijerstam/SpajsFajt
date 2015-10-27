@@ -21,7 +21,7 @@ namespace SpajsFajt
         public Vector2 Position { get; set; }
         public float Rotation { get; set; }
         public IFocus Focus { get { return (Player)world.GetObject(world.LocalPlayerID); } }
-        
+
         private World world = new World();
         private Vector2 prevPos;
         private float prevRot;
@@ -70,6 +70,7 @@ namespace SpajsFajt
                                 ID = netIn.ReadInt32();
                                 world.AddObject(new Player(ID));
                                 world.LocalPlayerID = ID;
+                                world.LocalPlayer = (Player)world.GameObjects[ID];
                                 Focus.Position = new Vector2(1000, 1000);
                                 Game1.Focus = Focus;
                                 break;
@@ -88,6 +89,13 @@ namespace SpajsFajt
                                 var type = netIn.ReadInt32();
                                 world.DoUpdate(id, v, r, vel, type);
                                 break;
+                            case GameMessageType.ObjectDeleted:
+                                id = netIn.ReadInt32();
+                                world.GameObjects.Remove(id);
+                                break;
+                            case GameMessageType.HPUpdate:
+                                world.LocalPlayer.Health = netIn.ReadInt32();
+                                break;
                         }
                         break;
                     case NetIncomingMessageType.DiscoveryResponse:
@@ -100,7 +108,7 @@ namespace SpajsFajt
             nextSendUpdate -= gameTime.ElapsedGameTime.Milliseconds;
             if (nextSendUpdate <= 0 && world.LocalPlayerID != -1)
             {
-                var p = (Player)world.GetObject(world.LocalPlayerID);
+                var p = world.LocalPlayer;
                 var netOut = netClient.CreateMessage();
                 netOut.Write((int)GameMessageType.ClientPosition);
                 netOut.Write(p.ID);

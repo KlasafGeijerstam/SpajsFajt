@@ -11,14 +11,17 @@ namespace SpajsFajt
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Camera2D camera;
+        static Camera2D camera;
         private bool host = true;
         private GameServer gameServer;
         private GameClient gameClient;
         private string remoteIP;
         private int remotePort;
         public static IFocus Focus { get; set; }
+        public static Vector2 CameraPosition { get { return camera.Position; } }
         private bool toggleKeyUp;
+
+        public static Vector2 ViewportSize { get { return new Vector2(640, 400); } }
 
         public Game1(string ip, int port, string name, bool host)
         {

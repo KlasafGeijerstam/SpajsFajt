@@ -29,3 +29,35 @@ C:\Users\97arks\documents\visual studio 2015\Projects\SpajsFajt\SpajsFajt\bin\Wi
 C:\Users\97arks\documents\visual studio 2015\Projects\SpajsFajt\SpajsFajt\bin\Windows\Debug\Lidgren.Network.Xna.dll
 C:\Users\97arks\documents\visual studio 2015\Projects\SpajsFajt\SpajsFajt\bin\Windows\Debug\Content\gameFont.xnb
 C:\Users\97arks\documents\visual studio 2015\Projects\SpajsFajt\SpajsFajt\bin\Windows\Debug\Content\gameFont.spritefont
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\obj\x86\Debug\SpajsFajt.exe
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\obj\x86\Debug\SpajsFajt.pdb
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\Content\textures.xml
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\Content\gameFont.xnb
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\Content\sheet.png
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\Content\gameFont.spritefont
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\SpajsFajt.exe
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\SpajsFajt.pdb
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\Lidgren.Network.dll
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\MonoGame.Framework.dll
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\Microsoft.Xna.Framework.dll
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\SharpDX.MediaFoundation.dll
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\SharpDX.dll
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\SharpDX.XAudio2.dll
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\SharpDX.Direct3D11.dll
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\SharpDX.DXGI.dll
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\SharpDX.Direct2D1.dll
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\SharpDX.XInput.dll
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\SharpDX.RawInput.dll
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\SharpDX.Direct3D9.dll
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\MonoGame.Framework.xml
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\Microsoft.Xna.Framework.xml
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\SharpDX.MediaFoundation.xml
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\SharpDX.xml
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\SharpDX.XAudio2.xml
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\SharpDX.Direct3D11.xml
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\SharpDX.DXGI.xml
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\SharpDX.Direct2D1.xml
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\SharpDX.XInput.xml
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\SharpDX.RawInput.xml
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\SharpDX.Direct3D9.xml
+C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\obj\x86\Debug\SpajsFajt.csprojResolveAssemblyReference.cache

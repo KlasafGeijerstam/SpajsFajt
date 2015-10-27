@@ -10,13 +10,17 @@ namespace SpajsFajt
     class Projectile:GameObject
     {
         public int SenderID { get; set; }
+        public bool Dead { get; set; }
         
+
         public Projectile(int id,float rot,Vector2 pos):base("projectile",id)
         {
             Position = pos;
             Rotation = rot;
             Velocity = 3f;
             origin = new Vector2(1, 3);
+            collisionRectangle.Width = 5;
+            collisionRectangle.Height = 2;
         }
 
         public override void Draw(SpriteBatch spriteBatch)

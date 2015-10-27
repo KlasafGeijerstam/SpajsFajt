@@ -35,7 +35,7 @@ namespace SpajsFajt
         }
         public Rectangle CollisionRectangle
         {
-            get{return collisionRectangle;}
+            get{ return new Rectangle((int)Position.X,(int)Position.Y,collisionRectangle.Width,collisionRectangle.Height); }
 
             set{collisionRectangle = value; }
         }

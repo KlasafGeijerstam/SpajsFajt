@@ -54,8 +54,8 @@ namespace SpajsFajt
             if (Focus != null)
                 position = new Vector2(Focus.Position.X - 50,Focus.Position.Y -25);
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Space))
-                rotation += 0.002f;
+            //if (Keyboard.GetState().IsKeyDown(Keys.Space))
+                //rotation += 0.002f;
             if (Keyboard.GetState().IsKeyDown(Keys.G))
                 Zoom -= 0.01f;
             if (Keyboard.GetState().IsKeyDown(Keys.H))

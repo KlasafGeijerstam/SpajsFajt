@@ -8,4 +8,12 @@
   <texture name="particles" x="100" y="0" w="50" h="50"/>
   <texture name="particleWhite" x="200" y="50" w="2" h="2"/>
   <texture name="projectile" x="200" y="0" w="2" h="5"/>
+  <texture name="health7" x ="0" y ="250" w="50" h="8"/>
+  <texture name="health6" x ="0" y ="259" w="50" h="8"/>
+  <texture name="health5" x ="0" y ="268" w="50" h="8"/>
+  <texture name="health4" x ="0" y ="277" w="50" h="8"/>
+  <texture name="health3" x ="0" y ="286" w="50" h="8"/>
+  <texture name="health2" x ="0" y ="295" w="50" h="8"/>
+  <texture name="health1" x ="0" y ="304" w="50" h="8"/>
+  <texture name="health0" x ="0" y ="313" w="50" h="8"/>
 </doc>

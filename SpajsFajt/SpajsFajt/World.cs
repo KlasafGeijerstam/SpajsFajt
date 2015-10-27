@@ -15,7 +15,15 @@ namespace SpajsFajt
         private Background background;
         public int RequestedProjectiles { get; set; }
         public int LocalPlayerID { get; set; }
+        private Player localPlayer;
         private float lastProjectile = 0;
+        private GUI gui = new GUI();
+        private Vector2 cameraOffset = new Vector2(400, 300);
+        public Player LocalPlayer
+        {
+            get { return localPlayer; }
+            set { localPlayer = value; }
+        }
 
         public Dictionary<int, GameObject> GameObjects
         {
@@ -38,7 +46,6 @@ namespace SpajsFajt
         public World()
         {
             LocalPlayerID = -1;
-            
         }
         public void Init()
         {
@@ -81,7 +88,12 @@ namespace SpajsFajt
                 else if (p.Position.X > 1550)
                     p.Position = new Vector2(1550, p.Position.Y);
             }
-            
+            if (Game1.Focus != null)
+            {
+                gui.Position = Game1.CameraPosition - new Vector2(Game1.ViewportSize.X / 2, Game1.ViewportSize.Y / 2);
+                gui.HealthGUI.Value = ((Player)gameObjects[LocalPlayerID]).Health / 10;
+            }
+            gui.Update();
             
         }
         
@@ -94,7 +106,7 @@ namespace SpajsFajt
                 
             }
             background.Draw(spriteBatch);
-            
+            gui.Draw(spriteBatch);
         }
         public GameObject GetObject(int id)
         {
