@@ -1,0 +1,9 @@
+c:\users\97arks\documents\visual studio 2015\Projects\CT\CT\bin\Debug\CT.exe.config
+c:\users\97arks\documents\visual studio 2015\Projects\CT\CT\bin\Debug\CT.exe
+c:\users\97arks\documents\visual studio 2015\Projects\CT\CT\bin\Debug\CT.pdb
+c:\users\97arks\documents\visual studio 2015\Projects\CT\CT\obj\Debug\CT.csprojResolveAssemblyReference.cache
+c:\users\97arks\documents\visual studio 2015\Projects\CT\CT\obj\Debug\CT.exe
+c:\users\97arks\documents\visual studio 2015\Projects\CT\CT\obj\Debug\CT.pdb
+C:\Users\97arks\documents\visual studio 2015\Projects\CT\CT\bin\Debug\Lidgren.Network.dll
+C:\Users\97arks\documents\visual studio 2015\Projects\CT\CT\bin\Debug\Lidgren.Network.Xna.dll
+C:\Users\97arks\documents\visual studio 2015\Projects\CT\CT\bin\Debug\users.txt

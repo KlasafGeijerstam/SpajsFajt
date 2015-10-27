@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<doc>
+  <sheet name="sheet.png"/>
+  <texture name="error" x="0" y="0" w="50" h="50"/>
+  <texture name="shipPlayer" x="150" y="0" w="50" h="50"/>
+  <texture name ="background1" x="0" y ="50" w="200" h="200"/>
+  <texture name="border" x="200" y="50" w="4" h="200"/>
+  <texture name="particles" x="100" y="0" w="50" h="50"/>
+  <texture name="particleWhite" x="200" y="50" w="2" h="2"/>
+  <texture name="projectile" x="200" y="0" w="2" h="5"/>
+</doc>
