@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 namespace SpajsFajt
 {
-    class TextureManager
+    static class TextureManager
     {
         private static Dictionary<string, Rectangle> textureRectangles;
         public static Texture2D SpriteSheet { get; private set; }
@@ -51,6 +51,18 @@ namespace SpajsFajt
         public static Rectangle GetParticle()
         {
             return new Rectangle(particlesRectangle.X +rnd.Next(0, 25) * 2,particlesRectangle.Y + rnd.Next(particlesRectangle.Y, 25) * 2, 2, 2);
+        }
+
+        public static void Draw(this Rectangle r, SpriteBatch spriteBatch, int width = 1)
+        {
+            //Top
+            spriteBatch.Draw(SpriteSheet, new Rectangle(r.X, r.Y, r.Width, width), textureRectangles["error"], Color.Yellow);
+            //Bot
+            spriteBatch.Draw(SpriteSheet, new Rectangle(r.X, r.Y +r.Height -width, r.Width, width), textureRectangles["error"], Color.Yellow);
+            //Left
+            spriteBatch.Draw(SpriteSheet, new Rectangle(r.X, r.Y, width, r.Height), textureRectangles["error"], Color.Yellow);
+            //Right
+            spriteBatch.Draw(SpriteSheet, new Rectangle(r.X + r.Width -width, r.Y, width, r.Height), textureRectangles["error"], Color.Yellow);
         }
     }
 }

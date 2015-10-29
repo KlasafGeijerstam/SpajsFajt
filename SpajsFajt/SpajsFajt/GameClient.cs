@@ -26,6 +26,7 @@ namespace SpajsFajt
         private Vector2 prevPos;
         private float prevRot;
         private float updateFrequency = 1/30, nextSendUpdate = 1/30;
+
         public GameClient()
         {
             var npcc = new NetPeerConfiguration("SpajsFajt");
@@ -62,6 +63,10 @@ namespace SpajsFajt
                             netOut.Write((int)GameMessageType.ClientReady);
                             netClient.SendMessage(netOut,NetDeliveryMethod.ReliableOrdered);
                         }
+                        else if (netClient.ConnectionStatus == NetConnectionStatus.Disconnected)
+                        {
+                            Game1.ShouldExit = true;
+                        }
                         break;
                     case NetIncomingMessageType.Data:
                         switch ((GameMessageType)netIn.ReadInt32())
@@ -95,6 +100,12 @@ namespace SpajsFajt
                                 break;
                             case GameMessageType.HPUpdate:
                                 world.LocalPlayer.Health = netIn.ReadInt32();
+                                break;
+                            case GameMessageType.PlayerDead:
+                                ((Player)world.GameObjects[netIn.ReadInt32()]).Die();
+                                break;
+                            case GameMessageType.PlayerRespawn:
+                                ((Player)world.GameObjects[netIn.ReadInt32()]).Respawn();
                                 break;
                         }
                         break;
@@ -132,6 +143,11 @@ namespace SpajsFajt
             }
             prevPos = Position;
             prevRot = Rotation;
+        }
+
+        internal void ShutDown()
+        {
+            netClient.Shutdown("exiting");
         }
     }
 }

@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 
 namespace SpajsFajt
 {
-    enum GameMessageType { ClientID = 0, ClientReady = 1, ClientUpdate = 2, ClientPosition = 3, ProjectileRequest = 4, ObjectUpdate = 5, ObjectDeleted = 6, HPUpdate = 7 };
+    enum GameMessageType { ClientID = 0, ClientReady = 1, ClientUpdate = 2, ClientPosition = 3, ProjectileRequest = 4, ObjectUpdate = 5, ObjectDeleted = 6, HPUpdate = 7, PlayerDead = 8, PlayerRespawn = 9 };
     class GameServer
     {
         private NetServer netServer;
@@ -65,7 +65,7 @@ namespace SpajsFajt
                                 i = netIn.ReadInt32();
                                 var offset = new Vector2((float)Math.Cos(world.GameObjects[i].Rotation * 20), (float)Math.Sin(world.GameObjects[i].Rotation * 20));
                                 world.AddObject(new Projectile(NextID(), world.GameObjects[i].Rotation, world.GameObjects[i].Position + offset) { SenderID = i });
-                                System.Diagnostics.Debug.WriteLine("Spawned projectile at: " + world.GameObjects[i].Position.ToString());
+                                
                                 break;
                             default:
                                 //Got unknown message type
@@ -96,19 +96,43 @@ namespace SpajsFajt
                             netOut.Write(c.Position.Y);
                             netOut.Write(c.Rotation);
                             netOut.Write(c.Velocity);
+                            
                             netServer.SendMessage(netOut, c2.Connection, NetDeliveryMethod.Unreliable);
                         }
                     }
                     c.LastDamageTaken += gameTime.ElapsedGameTime.Milliseconds;
+                    
+
                     if (c.LastDamageTaken > 300)
                         c.LastDamageTaken = 300;
+
+                    if (c.Health == 0 && !c.DeathSent)
+                    {
+                        var netOut = netServer.CreateMessage();
+                        netOut.Write((int)GameMessageType.PlayerDead);
+                        netOut.Write(c.ID);
+                        netServer.SendToAll(netOut,NetDeliveryMethod.ReliableUnordered);
+                        c.Dead = true;
+                        c.DeathSent = true;
+                    }
+                    //Respawn player after 5 seconds
+                    if (c.Dead)
+                        c.TimeDead += gameTime.ElapsedGameTime.Milliseconds;
+                    if (c.TimeDead >= 5000)
+                    {
+                        c.Respawn();
+                        var netOut = netServer.CreateMessage();
+                        netOut.Write((int)GameMessageType.PlayerRespawn);
+                        netOut.Write(c.ID);
+                        netServer.SendToAll(netOut, NetDeliveryMethod.ReliableUnordered);
+                    }
                     foreach (var o in world.GameObjects.Values.Where(x => x is Projectile))
                     {
                         
                         var p = (Projectile)o;
                         NetOutgoingMessage netOut;
                         //Collision
-                        if (p.CollisionRectangle.Intersects(c.CollisionRectangle) && p.SenderID != c.ID && c.LastDamageTaken >= 300)
+                        if (p.CollisionRectangle.Intersects(c.CollisionRectangle) && p.SenderID != c.ID && c.LastDamageTaken >= 300 && !c.Dead)
                         {
                             c.LastDamageTaken = 0;
                             c.Health -= 10;
@@ -150,6 +174,11 @@ namespace SpajsFajt
 
                 nextUpdate = 1/30;
             }
+        }
+
+        internal void ShutDown()
+        {
+            netServer.Shutdown("exiting");
         }
 
         private static int idCounter = 0;

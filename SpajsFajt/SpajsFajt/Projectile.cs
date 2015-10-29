@@ -19,8 +19,8 @@ namespace SpajsFajt
             Rotation = rot;
             Velocity = 3f;
             origin = new Vector2(1, 3);
-            collisionRectangle.Width = 5;
-            collisionRectangle.Height = 2;
+            collisionRectangle.Width = 6;
+            collisionRectangle.Height = 10;
         }
 
         public override void Draw(SpriteBatch spriteBatch)

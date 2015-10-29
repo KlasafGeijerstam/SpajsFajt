@@ -19,6 +19,7 @@ namespace SpajsFajt
         private int remotePort;
         public static IFocus Focus { get; set; }
         public static Vector2 CameraPosition { get { return camera.Position; } }
+        public static bool ShouldExit { get; set; }
         private bool toggleKeyUp;
 
         public static Vector2 ViewportSize { get { return new Vector2(640, 400); } }
@@ -103,6 +104,12 @@ namespace SpajsFajt
                 gameServer.Update(gameTime);
             gameClient.Update(gameTime);
 
+            if (ShouldExit)
+            {
+                gameClient.ShutDown();
+                if (gameServer != null)
+                    gameServer.ShutDown();
+            }
             base.Update(gameTime);
         }
 

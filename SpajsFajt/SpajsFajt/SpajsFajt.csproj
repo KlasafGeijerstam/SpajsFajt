@@ -50,6 +50,8 @@
     <Compile Include="ICollidable.cs" />
     <Compile Include="IDrawable.cs" />
     <Compile Include="Particle\EngineParticle.cs" />
+    <Compile Include="Particle\ExplosionEmitter.cs" />
+    <Compile Include="Particle\ExplosionParticle.cs" />
     <Compile Include="Particle\Particle.cs" />
     <Compile Include="Particle\ParticleEmitter.cs" />
     <Compile Include="Particle\ShipEmitter.cs" />

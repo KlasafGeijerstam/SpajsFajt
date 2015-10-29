@@ -38,7 +38,7 @@ namespace SpajsFajt
             get
             {
                 if (LocalPlayerID != -1)
-                    return gameObjects[LocalPlayerID].Position;
+                    return localPlayer.Position;
                 else return Vector2.Zero;
             }
 
@@ -70,8 +70,7 @@ namespace SpajsFajt
             lastProjectile -= gameTime.ElapsedGameTime.Milliseconds;
             if (LocalPlayerID != -1)
             {
-                var p = (Player)gameObjects[LocalPlayerID];
-                p.Input(gameTime);
+                localPlayer.Input(gameTime);
 
                 if (Keyboard.GetState().IsKeyDown(Keys.E) && lastProjectile <= 0)
                 {
@@ -79,14 +78,14 @@ namespace SpajsFajt
                     lastProjectile = 300;
                 } 
 
-                if (p.Position.Y < 400)
-                    p.Position = new Vector2(p.Position.X, 400);
-                else if (p.Position.Y > 1500)
-                    p.Position = new Vector2(p.Position.X, 1500);
-                if (p.Position.X < 450)
-                    p.Position = new Vector2(450, p.Position.Y);
-                else if (p.Position.X > 1550)
-                    p.Position = new Vector2(1550, p.Position.Y);
+                if (localPlayer.Position.Y < 400)
+                    localPlayer.Position = new Vector2(localPlayer.Position.X, 400);
+                else if (localPlayer.Position.Y > 1500)
+                    localPlayer.Position = new Vector2(localPlayer.Position.X, 1500);
+                if (localPlayer.Position.X < 450)
+                    localPlayer.Position = new Vector2(450, localPlayer.Position.Y);
+                else if (localPlayer.Position.X > 1550)
+                    localPlayer.Position = new Vector2(1550, localPlayer.Position.Y);
             }
             if (Game1.Focus != null)
             {
@@ -103,7 +102,10 @@ namespace SpajsFajt
             {
                 //spriteBatch.DrawString(TextureManager.GameFont, o.Position.ToString(), o.Position, Color.White);
                 o.Draw(spriteBatch);
-                
+                if (o is Projectile)
+                {
+                    ((Projectile)o).CollisionRectangle.Draw(spriteBatch);
+                }
             }
             background.Draw(spriteBatch);
             gui.Draw(spriteBatch);
