@@ -107,6 +107,9 @@ namespace SpajsFajt
                             case GameMessageType.PlayerRespawn:
                                 ((Player)world.GameObjects[netIn.ReadInt32()]).Respawn();
                                 break;
+                            case GameMessageType.PowerUpdate:
+                                world.LocalPlayer.PowerLevel = netIn.ReadInt32();
+                                break;
                         }
                         break;
                     case NetIncomingMessageType.DiscoveryResponse:

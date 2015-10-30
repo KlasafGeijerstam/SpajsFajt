@@ -30,6 +30,8 @@ namespace SpajsFajt
         private float lastVelocity = 0f;
         private ExplosionEmitter explosionEmitter;
         public float TimeDead { get; set; }
+        public int PowerLevel { get; set; }
+
 
         public Player(int id):
             base("shipPlayer",id)
@@ -38,6 +40,7 @@ namespace SpajsFajt
             origin = new Vector2(textureRectangle.Width / 2, textureRectangle.Height / 2);
             collisionRectangle.Width = 34; //39
             collisionRectangle.Height = 31; //36
+            PowerLevel = 70;
         }
 
         public void Die()
@@ -57,6 +60,7 @@ namespace SpajsFajt
             textureRectangle = TextureManager.GetRectangle("shipPlayer");
             DeathSent = false;
             Health = 70;
+            PowerLevel = 70;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -66,7 +70,6 @@ namespace SpajsFajt
 
             spriteBatch.Draw(TextureManager.SpriteSheet, position, textureRectangle, Color.White, rotation + rotationOffset, origin, 1f, SpriteEffects.None, 1f);
             emitter.Draw(spriteBatch);
-            collisionRectangle.Draw(spriteBatch);
         }
 
         public void Input(GameTime gameTime)

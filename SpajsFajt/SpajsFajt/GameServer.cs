@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 
 namespace SpajsFajt
 {
-    enum GameMessageType { ClientID = 0, ClientReady = 1, ClientUpdate = 2, ClientPosition = 3, ProjectileRequest = 4, ObjectUpdate = 5, ObjectDeleted = 6, HPUpdate = 7, PlayerDead = 8, PlayerRespawn = 9 };
+    
     class GameServer
     {
         private NetServer netServer;
@@ -17,6 +17,7 @@ namespace SpajsFajt
         private List<GameObject> gameObjects = new List<GameObject>();
         private float nextUpdate = 300;
         private World world = new World();
+        private float powerTimer = 0;
 
         public GameServer(int port)
         {
@@ -63,9 +64,19 @@ namespace SpajsFajt
                                 break;
                             case GameMessageType.ProjectileRequest:
                                 i = netIn.ReadInt32();
-                                var offset = new Vector2((float)Math.Cos(world.GameObjects[i].Rotation * 20), (float)Math.Sin(world.GameObjects[i].Rotation * 20));
-                                world.AddObject(new Projectile(NextID(), world.GameObjects[i].Rotation, world.GameObjects[i].Position + offset) { SenderID = i });
-                                
+
+                                if (world.Players[i].PowerLevel >= 10)
+                                {
+                                    world.Players[i].PowerLevel -= 10;
+
+                                    var offset = new Vector2((float)Math.Cos(world.GameObjects[i].Rotation * 20), (float)Math.Sin(world.GameObjects[i].Rotation * 20));
+                                    world.AddObject(new Projectile(NextID(), world.GameObjects[i].Rotation, world.GameObjects[i].Position + offset) { SenderID = i });
+                                    netOut = netServer.CreateMessage();
+                                    
+                                    netOut.Write((int)GameMessageType.PowerUpdate);
+                                    netOut.Write(world.Players[i].PowerLevel);
+                                    netServer.SendMessage(netOut, ((Player)world.GameObjects[i]).Connection, NetDeliveryMethod.ReliableUnordered); 
+                                }
                                 break;
                             default:
                                 //Got unknown message type
@@ -74,10 +85,10 @@ namespace SpajsFajt
                         break;
                 }
             }
-
             
-
             nextUpdate -= gameTime.ElapsedGameTime.Milliseconds;
+            powerTimer += gameTime.ElapsedGameTime.Milliseconds;
+            
             if (nextUpdate <= 0)
             {
                 //Time to send updates
@@ -85,6 +96,14 @@ namespace SpajsFajt
                 foreach (var c in world.Players.Values)
                 {
                     //Update game objects
+                    if(powerTimer >= 1000 && c.PowerLevel < 70)
+                    {
+                        c.PowerLevel += 10;
+                        var nO = netServer.CreateMessage();
+                        nO.Write((int)GameMessageType.PowerUpdate);
+                        nO.Write(c.PowerLevel);
+                        netServer.SendMessage(nO, c.Connection, NetDeliveryMethod.ReliableUnordered);
+                    }
                     foreach (var c2 in world.Players.Values)
                     {
                         if (c != c2)
@@ -172,8 +191,10 @@ namespace SpajsFajt
                 world.GameObjects.Values.Where(x => x is Projectile).ToList().ForEach(x => ((Projectile)x).Move());
                 world.GameObjects.Except(world.GameObjects.Where(x => x.Value is Projectile && ((Projectile)x.Value).Dead));
 
-                nextUpdate = 1/30;
+                nextUpdate = 10;
             }
+            if (powerTimer >= 1000)
+                powerTimer = 0;
         }
 
         internal void ShutDown()

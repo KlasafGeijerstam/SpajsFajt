@@ -90,7 +90,8 @@ namespace SpajsFajt
             if (Game1.Focus != null)
             {
                 gui.Position = Game1.CameraPosition - new Vector2(Game1.ViewportSize.X / 2, Game1.ViewportSize.Y / 2);
-                gui.HealthGUI.Value = ((Player)gameObjects[LocalPlayerID]).Health / 10;
+                gui.HealthGUI.Value = LocalPlayer.Health / 10;
+                gui.PowerGUI.Value = LocalPlayer.PowerLevel / 10;
             }
             gui.Update();
             
@@ -102,10 +103,6 @@ namespace SpajsFajt
             {
                 //spriteBatch.DrawString(TextureManager.GameFont, o.Position.ToString(), o.Position, Color.White);
                 o.Draw(spriteBatch);
-                if (o is Projectile)
-                {
-                    ((Projectile)o).CollisionRectangle.Draw(spriteBatch);
-                }
             }
             background.Draw(spriteBatch);
             gui.Draw(spriteBatch);
