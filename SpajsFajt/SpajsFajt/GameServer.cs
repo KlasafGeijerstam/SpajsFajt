@@ -188,13 +188,24 @@ namespace SpajsFajt
                         netServer.SendMessage(netOut, c.Connection, NetDeliveryMethod.Unreliable);
                     }
                 }
-                world.GameObjects.Values.Where(x => x is Projectile).ToList().ForEach(x => ((Projectile)x).Move());
-                world.GameObjects.Except(world.GameObjects.Where(x => x.Value is Projectile && ((Projectile)x.Value).Dead));
+                var projectiles = world.GameObjects.Values.Where(x => x is Projectile).Select(x => (Projectile)x).ToList();
+                
+                foreach (var item in projectiles)
+                {
+                    item.Move();
+                    if (item.Dead)
+                        world.GameObjects.Remove(item.ID);
+                }
+                
+                
 
                 nextUpdate = 10;
             }
             if (powerTimer >= 1000)
+            {
                 powerTimer = 0;
+                System.Diagnostics.Debug.WriteLine("Objects: " +world.GameObjects.Values.Count.ToString());
+            } 
         }
 
         internal void ShutDown()
