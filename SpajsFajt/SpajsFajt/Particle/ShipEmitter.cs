@@ -25,6 +25,8 @@ namespace SpajsFajt
 
         public override void GenerateParticle(int amount = 1)
         {
+            if (Boosting)
+                amount += 5;
             for (int i = 0; i < amount; i++)
             {
                 

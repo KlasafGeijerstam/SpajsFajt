@@ -20,6 +20,8 @@ namespace SpajsFajt
         public bool LastBoostValue { get; set; }
         public bool BoostRequest { get; set; }
         public int LastPowerLevel { get; set; }
+        private float timeBoosting = 0;
+        private float speedOffset;
 
         public float LastDamageTaken
         {
@@ -73,7 +75,6 @@ namespace SpajsFajt
                 explosionEmitter.Draw(spriteBatch);
 
             spriteBatch.Draw(TextureManager.SpriteSheet, position, textureRectangle, Color.White, rotation + rotationOffset, origin, 1f, SpriteEffects.None, 1f);
-            spriteBatch.DrawString(TextureManager.GameFont, Boosting.ToString(), Position - new Vector2(50, 50), Color.Yellow);
             emitter.Draw(spriteBatch);
         }
 
@@ -85,14 +86,25 @@ namespace SpajsFajt
                 var ks = Keyboard.GetState();
                 if (ks.IsKeyDown(Keys.W))
                 {
-                    velocity += 0.01f;
-                    if (velocity > speed)
-                        velocity = speed;
-                    if (Boosting)
+                    if (!Boosting)
                     {
-                        velocity *= 2;
+                        velocity += 0.01f;
+                        if (velocity > speed + speedOffset)
+                            velocity = speed + speedOffset;
+
+                        if (speedOffset > 0)
+                            speedOffset -= 0.01f;
+                        if (speedOffset < 0.1f)
+                            speedOffset = 0;
                     }
-                     
+                    else
+                    {
+                        velocity += 0.04f;
+                        if (Velocity > (speed * 2))
+                            velocity = speed * 2;
+
+                        speedOffset = speed;
+                    }
                 }
                 else
                 {
@@ -140,6 +152,8 @@ namespace SpajsFajt
             emitter.Boosting = Boosting;
             if (Dead)
                 TimeDead += gameTime.ElapsedGameTime.Milliseconds;
+            if (Boosting)
+                timeBoosting += gameTime.ElapsedGameTime.Milliseconds;
 
             if (explosionEmitter != null)
             {
@@ -149,7 +163,7 @@ namespace SpajsFajt
 
             }
 
-            if (velocity >= lastVelocity && velocity != 0f)
+            if (velocity + speedOffset >= lastVelocity && velocity != 0f)
                 emitter.GenerateParticle(5);
 
             lastVelocity = velocity;
