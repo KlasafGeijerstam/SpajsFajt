@@ -84,7 +84,8 @@ namespace SpajsFajt
                                 var v = new Vector2(netIn.ReadFloat(), netIn.ReadFloat());
                                 var r = netIn.ReadFloat();
                                 var vel = netIn.ReadFloat();
-                                world.DoUpdate(id, v, r,vel);
+                                world.DoUpdate(id, v, r, vel);
+                                ((Player)(world.GameObjects[id])).Boosting = netIn.ReadBoolean();
                                 break;
                             case GameMessageType.ObjectUpdate:
                                 id = netIn.ReadInt32();
@@ -109,6 +110,10 @@ namespace SpajsFajt
                                 break;
                             case GameMessageType.PowerUpdate:
                                 world.LocalPlayer.PowerLevel = netIn.ReadInt32();
+                                world.LocalPlayer.Boosting = netIn.ReadBoolean();
+                                break;
+                            case GameMessageType.BoostStatus:
+                                world.LocalPlayer.Boosting = netIn.ReadBoolean();
                                 break;
                         }
                         break;
@@ -142,7 +147,16 @@ namespace SpajsFajt
                     netClient.SendMessage(netOut, NetDeliveryMethod.Unreliable);
                     world.RequestedProjectiles = 0; 
                 }
-                
+                if (p.LastBoostValue != p.BoostRequest)
+                {
+                    //Boost
+                    netOut = netClient.CreateMessage();
+                    netOut.Write((int)GameMessageType.BoostRequest);
+                    netOut.Write(p.ID);
+                    netOut.Write(p.BoostRequest);
+                    netClient.SendMessage(netOut, NetDeliveryMethod.ReliableUnordered);
+                }
+                p.LastBoostValue = p.BoostRequest;
             }
             prevPos = Position;
             prevRot = Rotation;

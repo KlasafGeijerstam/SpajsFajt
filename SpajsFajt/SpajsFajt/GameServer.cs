@@ -5,7 +5,7 @@ using System.Text;
 using Lidgren.Network;
 using Lidgren.Network.Xna;
 using Microsoft.Xna.Framework;
-
+using System.Diagnostics;
 
 namespace SpajsFajt
 {
@@ -18,6 +18,7 @@ namespace SpajsFajt
         private float nextUpdate = 300;
         private World world = new World();
         private float powerTimer = 0;
+        private float boostTimer = 0;
 
         public GameServer(int port)
         {
@@ -78,6 +79,10 @@ namespace SpajsFajt
                                     netServer.SendMessage(netOut, ((Player)world.GameObjects[i]).Connection, NetDeliveryMethod.ReliableUnordered); 
                                 }
                                 break;
+                            case GameMessageType.BoostRequest:
+                                i = netIn.ReadInt32();
+                                world.Players[i].Boosting = netIn.ReadBoolean();
+                                break;
                             default:
                                 //Got unknown message type
                                 break;
@@ -88,7 +93,8 @@ namespace SpajsFajt
             
             nextUpdate -= gameTime.ElapsedGameTime.Milliseconds;
             powerTimer += gameTime.ElapsedGameTime.Milliseconds;
-            
+            boostTimer += gameTime.ElapsedGameTime.Milliseconds;
+
             if (nextUpdate <= 0)
             {
                 //Time to send updates
@@ -99,11 +105,29 @@ namespace SpajsFajt
                     if(powerTimer >= 1000 && c.PowerLevel < 70)
                     {
                         c.PowerLevel += 10;
+                    }
+                    if (c.Boosting)
+                    {
+                        if (boostTimer >= 300)
+                            c.PowerLevel -= 10;
+
+                        if (c.PowerLevel <= 0)
+                        {
+                            c.PowerLevel = 0;
+                            c.Boosting = false;
+                        }
+                    }
+                    if (c.LastPowerLevel != c.PowerLevel)
+                    {
                         var nO = netServer.CreateMessage();
                         nO.Write((int)GameMessageType.PowerUpdate);
                         nO.Write(c.PowerLevel);
+                        nO.Write(c.Boosting);
                         netServer.SendMessage(nO, c.Connection, NetDeliveryMethod.ReliableUnordered);
                     }
+
+                    c.LastPowerLevel = c.PowerLevel;
+
                     foreach (var c2 in world.Players.Values)
                     {
                         if (c != c2)
@@ -115,7 +139,7 @@ namespace SpajsFajt
                             netOut.Write(c.Position.Y);
                             netOut.Write(c.Rotation);
                             netOut.Write(c.Velocity);
-                            
+                            netOut.Write(c.Boosting);
                             netServer.SendMessage(netOut, c2.Connection, NetDeliveryMethod.Unreliable);
                         }
                     }
@@ -204,8 +228,11 @@ namespace SpajsFajt
             if (powerTimer >= 1000)
             {
                 powerTimer = 0;
-                System.Diagnostics.Debug.WriteLine("Objects: " +world.GameObjects.Values.Count.ToString());
-            } 
+            }
+            if(boostTimer > 300)
+            {
+                boostTimer = 0;
+            }
         }
 
         internal void ShutDown()

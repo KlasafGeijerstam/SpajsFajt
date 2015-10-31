@@ -16,13 +16,17 @@ namespace SpajsFajt
         public int Health { get; set; }
         public bool Dead { get; set; }
         public bool DeathSent { get; set; }
+        public bool Boosting { get; set; }
+        public bool LastBoostValue { get; set; }
+        public bool BoostRequest { get; set; }
+        public int LastPowerLevel { get; set; }
 
         public float LastDamageTaken
         {
             get; set;
         }
 
-        private float rotSpeed = 0.1f;
+        private float rotSpeed = 0.05f;
         private float rotationOffset = (float)Math.PI / 2;
         private Rectangle playerRectangle = new Rectangle(0, 0, 50, 50);
         public Rectangle PlayerRectangle { get { return playerRectangle; } }
@@ -69,6 +73,7 @@ namespace SpajsFajt
                 explosionEmitter.Draw(spriteBatch);
 
             spriteBatch.Draw(TextureManager.SpriteSheet, position, textureRectangle, Color.White, rotation + rotationOffset, origin, 1f, SpriteEffects.None, 1f);
+            spriteBatch.DrawString(TextureManager.GameFont, Boosting.ToString(), Position - new Vector2(50, 50), Color.Yellow);
             emitter.Draw(spriteBatch);
         }
 
@@ -83,6 +88,11 @@ namespace SpajsFajt
                     velocity += 0.01f;
                     if (velocity > speed)
                         velocity = speed;
+                    if (Boosting)
+                    {
+                        velocity *= 2;
+                    }
+                     
                 }
                 else
                 {
@@ -92,11 +102,29 @@ namespace SpajsFajt
                 }
 
                 if (ks.IsKeyDown(Keys.D))
-                    rotation += rotSpeed;
+                {
+                    if (Boosting)
+                        rotation += rotSpeed / 2;
+                    else
+                        rotation += rotSpeed;
+                }
+
                 if (ks.IsKeyDown(Keys.A))
-                    rotation -= rotSpeed;
+                {
+                    if (Boosting)
+                        rotation -= rotSpeed / 2;
+                    else
+                        rotation -= rotSpeed;
+                }
                 if (ks.IsKeyDown(Keys.Z)) //&& textureRectangle != TextureManager.GetRectangle("none")
-                    Die(); 
+                    Die();
+                if (ks.IsKeyDown(Keys.LeftShift))
+                {
+                    BoostRequest = true;
+                }
+                else
+                    BoostRequest = false;
+
             }
 
             position += new Vector2((float)Math.Cos(rotation) * velocity, (float)Math.Sin(rotation) * velocity);
@@ -109,7 +137,7 @@ namespace SpajsFajt
             emitter.Rotation = rotation + (float)Math.PI;
             emitter.Update(gameTime);
             emitter.ParticleSpeed = ((velocity) < .5f) ? 1f: velocity*1.5f;
-
+            emitter.Boosting = Boosting;
             if (Dead)
                 TimeDead += gameTime.ElapsedGameTime.Milliseconds;
 

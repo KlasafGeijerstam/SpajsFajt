@@ -17,6 +17,8 @@ namespace SpajsFajt
         HPUpdate = 7,
         PlayerDead = 8,
         PlayerRespawn = 9,
-        PowerUpdate = 10
+        PowerUpdate = 10,
+        BoostRequest = 11,
+        BoostStatus = 12
     };
 }

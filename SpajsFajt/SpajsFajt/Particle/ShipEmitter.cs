@@ -12,6 +12,8 @@ namespace SpajsFajt
     {
         private int particlesSinceWhite = 0;
         private int particlesSinceYellow = 0;
+        public bool Boosting { get; set; }
+
         public ShipEmitter()
             :base(Vector2.Zero,0f)
         {
@@ -30,7 +32,9 @@ namespace SpajsFajt
                 Color c = new Color(random.Next(lowerBoundColor.R, upperBoundColor.R), 
                     random.Next(lowerBoundColor.G, upperBoundColor.G), 
                     random.Next(lowerBoundColor.B, upperBoundColor.B));
-                
+                if (Boosting)
+                    c = Color.Blue;
+
                 var velocity = new Vector2((float)Math.Cos(Rotation + r) * ParticleSpeed, (float)Math.Sin(Rotation + r) * ParticleSpeed);
                 velocity *= ((float)random.NextDouble() + 0.5f);
                 float rotVel = (random.Next(2) > 0) ? (float)random.NextDouble() / 100 : (float)-random.NextDouble() / 100;
