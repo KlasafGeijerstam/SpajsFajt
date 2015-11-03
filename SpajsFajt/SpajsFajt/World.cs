@@ -19,6 +19,7 @@ namespace SpajsFajt
         private float lastProjectile = 0;
         private GUI gui = new GUI();
         private Vector2 cameraOffset = new Vector2(400, 300);
+        private Enemy enemy;
         public Player LocalPlayer
         {
             get { return localPlayer; }
@@ -50,6 +51,10 @@ namespace SpajsFajt
         public void Init()
         {
             background = new Background(new Vector2(0, 0));
+            enemy = new Enemy(GameServer.NextID());
+            enemy.Position = new Vector2(700, 700);
+            enemy.Target = LocalPlayer;
+            gameObjects.Add(enemy.ID, enemy);
         }
         public void AddObject(GameObject g)
         {
@@ -94,7 +99,8 @@ namespace SpajsFajt
                 gui.PowerGUI.Value = LocalPlayer.PowerLevel / 10;
             }
             gui.Update();
-            
+            enemy.Target = LocalPlayer;
+            enemy.Move(gameTime);
         }
         
         public void Draw(SpriteBatch spriteBatch)
@@ -106,6 +112,7 @@ namespace SpajsFajt
             }
             background.Draw(spriteBatch);
             gui.Draw(spriteBatch);
+            enemy.Draw(spriteBatch);
         }
         public GameObject GetObject(int id)
         {
