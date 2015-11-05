@@ -12,11 +12,21 @@ namespace SpajsFajt
         public Player Target { get; set; }
         private ShipEmitter emitter;
         private float lastVelocity;
+        private float rotationSpeed = 0.07f;
+        private bool slowDown { get; set; }
+        private float timeSinceLastProjectile = 0;
+        public bool FireProjectile { get; set; }
+        public int Health { get; set; }
+        public float TimeSinceLastDamage { get; set; }
+
         public Enemy(int id):base("shipPlayer",id)
         {
+            Position = new Vector2(400, 300);
             emitter = new ShipEmitter();
             origin = new Vector2(textureRectangle.Width / 2, textureRectangle.Height / 2);
             velocity = 1.5f;
+            Health = 30;
+            collisionRectangle = new Rectangle(0, 0, 36, 35);
         }
 
         public override void Update(GameTime gameTime)
@@ -25,21 +35,47 @@ namespace SpajsFajt
             emitter.Rotation = rotation + (float)Math.PI;
             emitter.Update(gameTime);
             emitter.ParticleSpeed = ((velocity) < .5f) ? 1f : velocity * 1.5f;
-            if (velocity >= lastVelocity && velocity != 0f)
+            if (velocity >= lastVelocity && velocity != 0f && !slowDown)
                 emitter.GenerateParticle(5);
             lastVelocity = velocity;
+            
         }
-
+        public void Fire()
+        {
+            timeSinceLastProjectile = 0;
+            FireProjectile = false;
+        }
         public void Move(GameTime gameTime)
         {
             if (Target != null)
             {
-                Rotation = (float)Math.Atan((Position.Y - Target.Position.Y) / (Position.X - Target.Position.X));
-                //Rotation = (float)Math.Asin((Position.Y - Target.Position.Y) / Vector2.Distance(Position, Target.Position));
-                if (Target.Position.X < Position.X)
-                    Rotation += (float)Math.PI;
+                timeSinceLastProjectile += gameTime.ElapsedGameTime.Milliseconds;
+                TimeSinceLastDamage -= gameTime.ElapsedGameTime.Milliseconds;
+                if (TimeSinceLastDamage <= 0)
+                    TimeSinceLastDamage = 0;
 
-                position += new Vector2((float)Math.Cos(Rotation) * velocity, (float)Math.Sin(Rotation) * velocity);
+                slowDown = false;
+                var rot = (float)Math.Atan((Position.Y - Target.Position.Y) / (Position.X - Target.Position.X));
+                if (Target.Position.X < Position.X)
+                    rot += (float)Math.PI;
+                if (rot != Rotation)
+                {
+                    Rotation += Math.Min((rot-Rotation) - rotationSpeed, (rot-Rotation)+ rotationSpeed);
+                }
+                //Rotation = (float)Math.Asin((Position.Y - Target.Position.Y) / Vector2.Distance(Position, Target.Position));
+
+                if (Vector2.Distance(Position, Target.Position) > 50)
+                    position += new Vector2((float)Math.Cos(Rotation) * velocity, (float)Math.Sin(Rotation) * velocity);
+                else
+                {
+                    slowDown = true;
+                }
+                if (timeSinceLastProjectile >= 1000 && Vector2.Distance(Position,Target.Position) < 400)
+                {
+                    FireProjectile = true;
+                    timeSinceLastProjectile = 0;
+                }
+
             }
         }
 

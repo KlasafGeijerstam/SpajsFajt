@@ -14,7 +14,6 @@ namespace SpajsFajt
         public NetConnection  Connection {get;set;}
         private float speed = 2f;
         public int Health { get; set; }
-        public bool Dead { get; set; }
         public bool DeathSent { get; set; }
         public bool Boosting { get; set; }
         public bool LastBoostValue { get; set; }
