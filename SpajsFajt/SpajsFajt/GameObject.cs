@@ -16,7 +16,7 @@ namespace SpajsFajt
         protected float rotation = 0f;
         protected Vector2 origin;
         protected float velocity = 0f;
-        
+        public bool Dead { get; set; }
         public float Velocity
         {
             get { return velocity; }

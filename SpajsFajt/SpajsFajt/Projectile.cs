@@ -10,7 +10,6 @@ namespace SpajsFajt
     class Projectile:GameObject
     {
         public int SenderID { get; set; }
-        public bool Dead { get; set; }
         
 
         public Projectile(int id,float rot,Vector2 pos):base("projectile",id)

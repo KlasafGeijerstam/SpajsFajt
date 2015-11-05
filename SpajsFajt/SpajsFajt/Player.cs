@@ -14,7 +14,6 @@ namespace SpajsFajt
         public NetConnection  Connection {get;set;}
         private float speed = 2f;
         public int Health { get; set; }
-        public bool Dead { get; set; }
         public bool DeathSent { get; set; }
         public bool Boosting { get; set; }
         public bool LastBoostValue { get; set; }
@@ -148,7 +147,7 @@ namespace SpajsFajt
             emitter.Position = new Vector2(position.X - (float)Math.Cos(rotation) * 20, position.Y -(float)Math.Sin(rotation) * 20);
             emitter.Rotation = rotation + (float)Math.PI;
             emitter.Update(gameTime);
-            emitter.ParticleSpeed = ((velocity) < .5f) ? 1f: velocity*1.5f;
+            emitter.ParticleSpeed = ((velocity) < .5f) ? 1f: speedOffset + velocity*1.5f;
             emitter.Boosting = Boosting;
             if (Dead)
                 TimeDead += gameTime.ElapsedGameTime.Milliseconds;

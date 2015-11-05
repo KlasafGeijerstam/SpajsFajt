@@ -94,7 +94,6 @@ namespace SpajsFajt
                 gui.PowerGUI.Value = LocalPlayer.PowerLevel / 10;
             }
             gui.Update();
-            
         }
         
         public void Draw(SpriteBatch spriteBatch)
@@ -126,8 +125,11 @@ namespace SpajsFajt
                     gameObjects.Add(id, new Player(id) { Rotation = r, Position = v, Velocity = vel });
                 else if (type == 2)
                     gameObjects.Add(id, new Projectile(id, r, v));
+                else if (type == 3)
+                    gameObjects.Add(id, new Enemy(id) { Rotation = r, Velocity = vel, Position = v });
             }
         }
+
 
     }
 

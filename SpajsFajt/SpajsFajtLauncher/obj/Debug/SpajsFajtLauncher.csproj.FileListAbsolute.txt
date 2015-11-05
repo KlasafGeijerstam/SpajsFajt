@@ -28,3 +28,17 @@ C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\obj\Debug\Spajs
 C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\obj\Debug\SpajsFajtLauncher.csproj.GenerateResource.Cache
 C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\obj\Debug\SpajsFajtLauncher.exe
 C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\obj\Debug\SpajsFajtLauncher.pdb
+C:\Users\97arks\Documents\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\bin\Debug\SpajsFajtLauncher.exe.config
+C:\Users\97arks\Documents\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\bin\Debug\SpajsFajtLauncher.exe
+C:\Users\97arks\Documents\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\bin\Debug\SpajsFajtLauncher.pdb
+C:\Users\97arks\Documents\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\obj\Debug\SpajsFajtLauncher.csprojResolveAssemblyReference.cache
+C:\Users\97arks\Documents\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\obj\Debug\MainWindow.g.cs
+C:\Users\97arks\Documents\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\obj\Debug\App.g.cs
+C:\Users\97arks\Documents\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\obj\Debug\SpajsFajtLauncher_MarkupCompile.cache
+C:\Users\97arks\Documents\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\obj\Debug\SpajsFajtLauncher_MarkupCompile.lref
+C:\Users\97arks\Documents\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\obj\Debug\MainWindow.baml
+C:\Users\97arks\Documents\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\obj\Debug\SpajsFajtLauncher.g.resources
+C:\Users\97arks\Documents\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\obj\Debug\SpajsFajtLauncher.Properties.Resources.resources
+C:\Users\97arks\Documents\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\obj\Debug\SpajsFajtLauncher.csproj.GenerateResource.Cache
+C:\Users\97arks\Documents\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\obj\Debug\SpajsFajtLauncher.exe
+C:\Users\97arks\Documents\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\obj\Debug\SpajsFajtLauncher.pdb

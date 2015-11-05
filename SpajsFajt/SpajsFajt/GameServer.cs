@@ -19,7 +19,9 @@ namespace SpajsFajt
         private World world = new World();
         private float powerTimer = 0;
         private float boostTimer = 0;
-
+        private int maxEnemies = 4;
+        private float timeSinceLastEnemy = 0;
+        private float timeUNE = 5000;
         public GameServer(int port)
         {
             //Configuration
@@ -94,7 +96,14 @@ namespace SpajsFajt
             nextUpdate -= gameTime.ElapsedGameTime.Milliseconds;
             powerTimer += gameTime.ElapsedGameTime.Milliseconds;
             boostTimer += gameTime.ElapsedGameTime.Milliseconds;
+            timeSinceLastEnemy += gameTime.ElapsedGameTime.Milliseconds;
 
+            if (timeSinceLastEnemy >= timeUNE && maxEnemies <= 4)
+            {
+                world.AddObject(new Enemy(NextID()) { Target = world.Players[1]});
+                maxEnemies++;
+                Debug.WriteLine("Spawned enemy");
+            }
             if (nextUpdate <= 0)
             {
                 //Time to send updates
@@ -220,8 +229,54 @@ namespace SpajsFajt
                     if (item.Dead)
                         world.GameObjects.Remove(item.ID);
                 }
-                
-                
+                foreach (var enemy in world.GameObjects.Values.Where(x => x is Enemy).Select(z => (Enemy)z).ToList())
+                {
+                    NetOutgoingMessage netOut;
+                    enemy.Move(gameTime);
+                    if (enemy.FireProjectile)
+                    {
+                        var offset = new Vector2((float)Math.Cos(enemy.Rotation * 20), (float)Math.Sin(enemy.Rotation * 20));
+                        world.AddObject(new Projectile(NextID(), enemy.Rotation, enemy.Position + offset) { SenderID = enemy.ID });
+                        enemy.Fire();
+                    }
+
+                    foreach (var proj in projectiles)
+                    {
+                        if (proj.CollisionRectangle.Intersects(enemy.CollisionRectangle) && proj.SenderID != enemy.ID && enemy.TimeSinceLastDamage <= 0)
+                        {
+                            enemy.Health -= 10;
+                            enemy.TimeSinceLastDamage = 100;
+                            if (enemy.Health <= 0)
+                            {
+                                enemy.Dead = true;
+                                proj.Dead = true;
+                            }
+                        }
+                    }
+
+                    netOut = netServer.CreateMessage();
+                    netOut.Write((int)GameMessageType.ObjectUpdate);
+                    netOut.Write(enemy.ID);
+                    netOut.Write(enemy.Position.X);
+                    netOut.Write(enemy.Position.Y);
+                    netOut.Write(enemy.Rotation);
+                    netOut.Write(enemy.Velocity);
+                    netOut.Write(3);
+                    netServer.SendToAll(netOut, NetDeliveryMethod.Unreliable);
+                    
+                }
+                foreach (var obj in world.GameObjects.Values.ToList())
+                {
+                    if (obj.Dead)
+                    {
+                        
+                        var netOut = netServer.CreateMessage();
+                        netOut.Write((int)GameMessageType.ObjectDeleted);
+                        netOut.Write(obj.ID);
+                        netServer.SendToAll(netOut, NetDeliveryMethod.ReliableUnordered);
+                        world.GameObjects.Remove(obj.ID);
+                    }
+                }
 
                 nextUpdate = 10;
             }
