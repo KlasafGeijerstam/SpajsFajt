@@ -7,23 +7,33 @@ namespace SpajsFajt
 {
     class Background
     {
-        private Rectangle textureRect;
-        private Rectangle rectangle;
         private List<Border> borders = new List<Border>();
-
+        private List<Backdrop> backdrops = new List<Backdrop>();
         public Background(Vector2 p)
         {
-            if (textureRect == Rectangle.Empty)
-                textureRect = TextureManager.GetRectangle("background1");
-            rectangle = new Rectangle((int)p.X, (int)p.Y, 2000, 2000);
-            borders.Add(new Border(new Rectangle(450, 400, 1100, 4),false));//top
-            borders.Add(new Border(new Rectangle(450, 1500, 1100, 4),false));//bot
-            borders.Add(new Border(new Rectangle(450, 400, 1100, 4), true));//left
-            borders.Add(new Border(new Rectangle(1550, 400, 1100, 4), true));//right
+
+
+            //borders.Add(new Border(new Rectangle(450, 400, 1100, 4),false));//top
+            //borders.Add(new Border(new Rectangle(450, 1500, 1100, 4),false));//bot
+            //borders.Add(new Border(new Rectangle(450, 400, 1100, 4), true));//left
+            //borders.Add(new Border(new Rectangle(1550, 400, 1100, 4), true));//right
+
+            borders.Add(new Border(new Rectangle(-1500, -1500, 5000, 4),false));//top
+            borders.Add(new Border(new Rectangle(-1500, 3500, 5000, 4),false));//bot
+            borders.Add(new Border(new Rectangle(-1500, -1500,5000, 4), true));//left
+            borders.Add(new Border(new Rectangle(3500, -1500, 5000, 4), true));//right
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int c = 0; c < 3; c++)
+                {
+                    backdrops.Add(new Backdrop(new Rectangle(-2000 + (i * 2000), -2000 + (c * 2000), 2000, 2000)));
+                }
+            }
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(TextureManager.SpriteSheet, rectangle, textureRect, Color.White);
+            backdrops.ForEach(x => x.Draw(spriteBatch));
             borders.ForEach(x => x.Draw(spriteBatch));
         }
 
@@ -69,5 +79,21 @@ namespace SpajsFajt
             return or.Intersects(rectangle);
         }
         
+    }
+    class Backdrop
+    {
+        private Rectangle rectangle { get; set; }
+        private static Rectangle source;
+
+        public Backdrop(Rectangle r)
+        {
+            rectangle = r;
+            if (source == Rectangle.Empty)
+                source = TextureManager.GetRectangle("background1");
+        }
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(TextureManager.SpriteSheet, rectangle, source, Color.White);
+        }
     }
 }

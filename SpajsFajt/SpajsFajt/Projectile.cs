@@ -10,13 +10,13 @@ namespace SpajsFajt
     class Projectile:GameObject
     {
         public int SenderID { get; set; }
-        
+        public bool FiredByAI { get; set; }
 
         public Projectile(int id,float rot,Vector2 pos):base("projectile",id)
         {
             Position = pos;
             Rotation = rot;
-            Velocity = 3f;
+            velocity = 10f;
             origin = new Vector2(1, 3);
             collisionRectangle.Width = 6;
             collisionRectangle.Height = 10;

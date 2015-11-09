@@ -96,8 +96,14 @@ namespace SpajsFajt
                                 world.DoUpdate(id, v, r, vel, type);
                                 break;
                             case GameMessageType.ObjectDeleted:
+                                
                                 id = netIn.ReadInt32();
                                 world.GameObjects.Remove(id);
+                                break;
+                            case GameMessageType.EnemyDeleted:
+                                id = netIn.ReadInt32();
+                                ((Enemy)world.GameObjects[id]).Die();
+                                Console.WriteLine();
                                 break;
                             case GameMessageType.HPUpdate:
                                 world.LocalPlayer.Health = netIn.ReadInt32();
@@ -109,8 +115,15 @@ namespace SpajsFajt
                                 ((Player)world.GameObjects[netIn.ReadInt32()]).Respawn();
                                 break;
                             case GameMessageType.PowerUpdate:
-                                world.LocalPlayer.PowerLevel = netIn.ReadInt32();
-                                world.LocalPlayer.Boosting = netIn.ReadBoolean();
+                                try
+                                {
+                                    world.LocalPlayer.PowerLevel = netIn.ReadInt32();
+                                    world.LocalPlayer.Boosting = netIn.ReadBoolean();
+                                }
+                                catch (Exception)
+                                {
+                                   
+                                }
                                 break;
                             case GameMessageType.BoostStatus:
                                 world.LocalPlayer.Boosting = netIn.ReadBoolean();

@@ -19,6 +19,7 @@ namespace SpajsFajt
         PlayerRespawn = 9,
         PowerUpdate = 10,
         BoostRequest = 11,
-        BoostStatus = 12
+        BoostStatus = 12,
+        EnemyDeleted = 13
     };
 }

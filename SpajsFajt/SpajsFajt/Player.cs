@@ -37,6 +37,7 @@ namespace SpajsFajt
         public float TimeDead { get; set; }
         public int PowerLevel { get; set; }
 
+        public float SpeedOffset { get { return speedOffset; } }
 
         public Player(int id):
             base("shipPlayer",id)

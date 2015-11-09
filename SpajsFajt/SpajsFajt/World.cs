@@ -19,10 +19,28 @@ namespace SpajsFajt
         private float lastProjectile = 0;
         private GUI gui = new GUI();
         private Vector2 cameraOffset = new Vector2(400, 300);
+        private static Random rnd = new Random();
+
         public Player LocalPlayer
         {
             get { return localPlayer; }
             set { localPlayer = value; }
+        }
+
+        public static Vector2 GetRandomBorderPosition()
+        {
+            var vector = new Vector2();
+            if (rnd.Next(0, 2) == 1)
+                vector.Y = 0;
+            else
+                vector.Y = 1600;
+
+            if (rnd.Next(0, 2) == 1)
+                vector.X = 0;
+            else
+                vector.X = 1600;
+
+            return vector;
         }
 
         public Dictionary<int, GameObject> GameObjects
@@ -63,9 +81,17 @@ namespace SpajsFajt
         }
         public void Update(GameTime gameTime)
         {
-            foreach (var o in gameObjects.Values)
+            foreach (var o in gameObjects.Values.ToList())
             {
                 o.Update(gameTime);
+                if (o is Enemy)
+                {
+                    var e = (Enemy)o;
+                    if (e.ProperDead)
+                        gameObjects.Remove(e.ID);
+
+                }
+                    
             }
             lastProjectile -= gameTime.ElapsedGameTime.Milliseconds;
             if (LocalPlayerID != -1)
@@ -78,14 +104,14 @@ namespace SpajsFajt
                     lastProjectile = 300;
                 } 
 
-                if (localPlayer.Position.Y < 400)
-                    localPlayer.Position = new Vector2(localPlayer.Position.X, 400);
-                else if (localPlayer.Position.Y > 1500)
-                    localPlayer.Position = new Vector2(localPlayer.Position.X, 1500);
-                if (localPlayer.Position.X < 450)
-                    localPlayer.Position = new Vector2(450, localPlayer.Position.Y);
-                else if (localPlayer.Position.X > 1550)
-                    localPlayer.Position = new Vector2(1550, localPlayer.Position.Y);
+                if (localPlayer.Position.Y < -1500)
+                    localPlayer.Position = new Vector2(localPlayer.Position.X, -1500);
+                else if (localPlayer.Position.Y > 3500)
+                    localPlayer.Position = new Vector2(localPlayer.Position.X, 3500);
+                if (localPlayer.Position.X < -1500)
+                    localPlayer.Position = new Vector2(-1500, localPlayer.Position.Y);
+                else if (localPlayer.Position.X > 3500)
+                    localPlayer.Position = new Vector2(3500, localPlayer.Position.Y);
             }
             if (Game1.Focus != null)
             {
