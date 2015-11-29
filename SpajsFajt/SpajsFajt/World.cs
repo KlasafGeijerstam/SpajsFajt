@@ -31,14 +31,14 @@ namespace SpajsFajt
         {
             var vector = new Vector2();
             if (rnd.Next(0, 2) == 1)
-                vector.Y = 0;
+                vector.Y = -1500;
             else
-                vector.Y = 1600;
+                vector.Y = 3500;
 
             if (rnd.Next(0, 2) == 1)
-                vector.X = 0;
+                vector.X = -1500;
             else
-                vector.X = 1600;
+                vector.X = 3500;
 
             return vector;
         }
@@ -79,6 +79,7 @@ namespace SpajsFajt
             players.Add(p.ID, p);
             gameObjects.Add(p.ID, p);
         }
+        int c = 300;
         public void Update(GameTime gameTime)
         {
             foreach (var o in gameObjects.Values.ToList())
@@ -102,7 +103,9 @@ namespace SpajsFajt
                 {
                     RequestedProjectiles++;
                     lastProjectile = 300;
-                } 
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.O))
+                    gameObjects.Add(c, new Gold(Game1.CameraPosition, c++) { Collect = true });
 
                 if (localPlayer.Position.Y < -1500)
                     localPlayer.Position = new Vector2(localPlayer.Position.X, -1500);
@@ -118,6 +121,8 @@ namespace SpajsFajt
                 gui.Position = Game1.CameraPosition - new Vector2(Game1.ViewportSize.X / 2, Game1.ViewportSize.Y / 2);
                 gui.HealthGUI.Value = LocalPlayer.Health / 10;
                 gui.PowerGUI.Value = LocalPlayer.PowerLevel / 10;
+                gui.GoldGUI.Value = LocalPlayer.Gold;
+                Gold.Target = gui.GoldGUI.Position + gui.GoldGUI.Offset;
             }
             gui.Update();
         }

@@ -59,49 +59,49 @@ namespace SpajsFajt
         byte a = 1;
         public override void Update(GameTime gameTime)
         {
-            var ks = Keyboard.GetState();
-            if(ks.IsKeyDown(Keys.NumPad4))
-                if (upperBoundColor.R + a < 255)
-                    upperBoundColor.R += a;
-            
-            if (ks.IsKeyDown(Keys.NumPad1))
-                if (upperBoundColor.R - a > 0)
-                    upperBoundColor.R -= a;
+            //var ks = Keyboard.GetState();
+            //if (ks.IsKeyDown(Keys.NumPad4))
+            //    if (upperBoundColor.R + a < 255)
+            //        upperBoundColor.R += a;
 
-            if (ks.IsKeyDown(Keys.NumPad5))
-                if (upperBoundColor.G + a < 255)
-                    upperBoundColor.G += a;
-            if (ks.IsKeyDown(Keys.NumPad2))
-                if (upperBoundColor.G - a > 0)
-                    upperBoundColor.G -= a;
+            //if (ks.IsKeyDown(Keys.NumPad1))
+            //    if (upperBoundColor.R - a > 0)
+            //        upperBoundColor.R -= a;
 
-            if (ks.IsKeyDown(Keys.NumPad6))
-                if (upperBoundColor.B + a < 255)
-                    upperBoundColor.B += a;
-            if (ks.IsKeyDown(Keys.NumPad3))
-                if (upperBoundColor.B - a > 0)
-                    upperBoundColor.B -= a;
+            //if (ks.IsKeyDown(Keys.NumPad5))
+            //    if (upperBoundColor.G + a < 255)
+            //        upperBoundColor.G += a;
+            //if (ks.IsKeyDown(Keys.NumPad2))
+            //    if (upperBoundColor.G - a > 0)
+            //        upperBoundColor.G -= a;
 
-            if (ks.IsKeyDown(Keys.U))
-                if (lowerBoundColor.R + a < 255)
-                    lowerBoundColor.R += a;
-            if (ks.IsKeyDown(Keys.J))
-                if (lowerBoundColor.R - a > 0)
-                    lowerBoundColor.R -= a;
+            //if (ks.IsKeyDown(Keys.NumPad6))
+            //    if (upperBoundColor.B + a < 255)
+            //        upperBoundColor.B += a;
+            //if (ks.IsKeyDown(Keys.NumPad3))
+            //    if (upperBoundColor.B - a > 0)
+            //        upperBoundColor.B -= a;
 
-            if (ks.IsKeyDown(Keys.I))
-                if (lowerBoundColor.G + a < 255)
-                    lowerBoundColor.G += a;
-            if (ks.IsKeyDown(Keys.K))
-                if (lowerBoundColor.G - a > 0)
-                    lowerBoundColor.G -= a;
+            //if (ks.IsKeyDown(Keys.U))
+            //    if (lowerBoundColor.R + a < 255)
+            //        lowerBoundColor.R += a;
+            //if (ks.IsKeyDown(Keys.J))
+            //    if (lowerBoundColor.R - a > 0)
+            //        lowerBoundColor.R -= a;
 
-            if (ks.IsKeyDown(Keys.O))
-                if (lowerBoundColor.B + a < 255)
-                    lowerBoundColor.B += a;
-            if (ks.IsKeyDown(Keys.L))
-                if (lowerBoundColor.B - a > 0)
-                    lowerBoundColor.B -= a;
+            //if (ks.IsKeyDown(Keys.I))
+            //    if (lowerBoundColor.G + a < 255)
+            //        lowerBoundColor.G += a;
+            //if (ks.IsKeyDown(Keys.K))
+            //    if (lowerBoundColor.G - a > 0)
+            //        lowerBoundColor.G -= a;
+
+            //if (ks.IsKeyDown(Keys.O))
+            //    if (lowerBoundColor.B + a < 255)
+            //        lowerBoundColor.B += a;
+            //if (ks.IsKeyDown(Keys.L))
+            //    if (lowerBoundColor.B - a > 0)
+            //        lowerBoundColor.B -= a;
 
             base.Update(gameTime);
         }

@@ -17,6 +17,8 @@ namespace SpajsFajt
             Offset = new Vector2(110,5);
         }
 
+
+
         public new Rectangle TextureRectangle
         {
             get { return TextureManager.GetRectangle("power" + Value); }
@@ -25,6 +27,7 @@ namespace SpajsFajt
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(TextureManager.SpriteSheet, Position + Offset, TextureRectangle, Color.White, 0f, Vector2.Zero,2f, SpriteEffects.None, 0.5f);
+            
         }
 
     }

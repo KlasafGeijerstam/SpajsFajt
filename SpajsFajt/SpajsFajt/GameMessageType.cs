@@ -20,6 +20,8 @@ namespace SpajsFajt
         PowerUpdate = 10,
         BoostRequest = 11,
         BoostStatus = 12,
-        EnemyDeleted = 13
+        EnemyDeleted = 13,
+        CoinAdded = 14,
+        CoinPickedUp = 15
     };
 }

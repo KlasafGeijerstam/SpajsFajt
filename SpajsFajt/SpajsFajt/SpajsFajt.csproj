@@ -46,8 +46,10 @@
     <Compile Include="GameMessageType.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameServer.cs" />
+    <Compile Include="Gold.cs" />
     <Compile Include="GUI\GUI.cs" />
     <Compile Include="GUI\GUIComponent.cs" />
+    <Compile Include="GUI\GUIGold.cs" />
     <Compile Include="GUI\GUIHealth.cs" />
     <Compile Include="GUI\GUIPower.cs" />
     <Compile Include="ICollidable.cs" />

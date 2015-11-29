@@ -26,7 +26,7 @@ namespace SpajsFajt
         private Player targetPlayer = new Player(-4);
         private static Random rnd = new Random();
 
-        public Enemy(int id):base("shipPlayer",id)
+        public Enemy(int id):base("shipAi",id)
         {
             Position = World.GetRandomBorderPosition();
             emitter = new ShipEmitter();
@@ -48,7 +48,7 @@ namespace SpajsFajt
 
         private void GetRoam()
         {
-            targetPlayer.Position = new Vector2(rnd.Next(450, 1550), rnd.Next(400, 1500));
+            targetPlayer.Position = new Vector2(rnd.Next(-1500, 3500), rnd.Next(-1500, 3500));
             Target = targetPlayer;
         }
 

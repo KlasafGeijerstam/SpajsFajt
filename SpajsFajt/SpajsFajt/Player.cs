@@ -21,6 +21,7 @@ namespace SpajsFajt
         public int LastPowerLevel { get; set; }
         private float timeBoosting = 0;
         private float speedOffset;
+        public int Gold { get; set; }
 
         public float LastDamageTaken
         {

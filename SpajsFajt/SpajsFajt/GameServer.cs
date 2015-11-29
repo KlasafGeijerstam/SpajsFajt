@@ -23,6 +23,7 @@ namespace SpajsFajt
         private int enemyCount = 0;
         private float timeSinceLastEnemy = 0;
         private float timeUNE = 5000;
+
         public GameServer(int port)
         {
             //Configuration
@@ -111,7 +112,9 @@ namespace SpajsFajt
             if (nextUpdate <= 0)
             {
                 //Time to send updates
-                
+                var projectiles = world.GameObjects.Values.Where(x => x is Projectile).Select(x => (Projectile)x).ToList();
+                var coins = world.GameObjects.Values.Where(x => x is Gold).Select(x => (Gold)x).ToList();
+
                 foreach (var c in world.Players.Values)
                 {
                     //Update game objects
@@ -182,10 +185,10 @@ namespace SpajsFajt
                         netOut.Write(c.ID);
                         netServer.SendToAll(netOut, NetDeliveryMethod.ReliableUnordered);
                     }
-                    foreach (var o in world.GameObjects.Values.Where(x => x is Projectile))
+                    foreach (var o in projectiles)
                     {
                         
-                        var p = (Projectile)o;
+                        var p = o;
                         NetOutgoingMessage netOut;
                         //Collision
                         if (p.CollisionRectangle.Intersects(c.CollisionRectangle) && p.SenderID != c.ID && c.LastDamageTaken >= 300 && !c.Dead)
@@ -206,7 +209,7 @@ namespace SpajsFajt
                         }
                         cont:
                         netOut = netServer.CreateMessage();
-                        if (p.Dead || p.Position.Y < 400 || p.Position.Y > 1500 || p.Position.X < 450 || p.Position.X > 1550)
+                        if (p.Dead || p.Position.Y < -1500 || p.Position.Y > 3500 || p.Position.X < -1500 || p.Position.X > 3500)
                         {
                             netOut.Write((int)GameMessageType.ObjectDeleted);
                             netOut.Write(p.ID);
@@ -225,15 +228,41 @@ namespace SpajsFajt
                         netServer.SendMessage(netOut, c.Connection, NetDeliveryMethod.Unreliable);
                     }
                     c.LastBoostValue = c.Boosting;
+
+
+                    //Coins
+
+                    foreach (var coin in coins)
+                    {
+                        if(c.CollisionRectangle.Intersects(coin.CollisionRectangle))
+                        {
+                            var netOut = netServer.CreateMessage();
+                            netOut.Write((int)GameMessageType.CoinPickedUp);
+                            netOut.Write(coin.ID);
+                            netServer.SendMessage(netOut, c.Connection, NetDeliveryMethod.ReliableUnordered);
+
+                            netOut = netServer.CreateMessage();
+                            netOut.Write((int)GameMessageType.ObjectDeleted);
+                            netOut.Write(coin.ID);
+                            netServer.SendToAll(netOut, NetDeliveryMethod.ReliableUnordered);
+
+                            coin.Dead = true;
+                        }
+                    }
+
                 }
-                var projectiles = world.GameObjects.Values.Where(x => x is Projectile).Select(x => (Projectile)x).ToList();
                 
+                //Projectiles
+
                 foreach (var item in projectiles)
                 {
                     item.Move();
                     if (item.Dead)
                         world.GameObjects.Remove(item.ID);
                 }
+
+                //Enemies
+
                 foreach (var enemy in world.GameObjects.Values.Where(x => x is Enemy).Select(z => (Enemy)z).ToList())
                 {
                     NetOutgoingMessage netOut;
@@ -284,14 +313,30 @@ namespace SpajsFajt
                                 netOut.Write((int)GameMessageType.EnemyDeleted);
                                 netOut.Write(enemy.ID);
                                 netServer.SendToAll(netOut, NetDeliveryMethod.ReliableUnordered);
+                                var id = NextID();
+                                world.GameObjects.Add(id, new Gold(enemy.Position, id));
+                                netOut = netServer.CreateMessage();
+
+                                //Add coin
+                                netOut.Write((int)GameMessageType.CoinAdded);
+                                netOut.Write(id);
+                                netOut.Write(enemy.Position.X);
+                                netOut.Write(enemy.Position.Y);
+                                netServer.SendToAll(netOut, NetDeliveryMethod.ReliableUnordered);
+
                                 world.GameObjects.Remove(enemy.ID);
                                 enemyCount--;
+                                
                             }
                         }
                     }
-                    
+                    coins.ForEach(x => {
+                    if (x.Dead)
+                        world.GameObjects.Remove(x.ID);
+                    });
                 }
-                
+
+
                 nextUpdate = 20;
             }
             if (powerTimer >= 1000)
