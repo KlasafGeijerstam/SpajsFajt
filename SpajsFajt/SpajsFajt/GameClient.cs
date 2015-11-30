@@ -128,6 +128,15 @@ namespace SpajsFajt
                             case GameMessageType.BoostStatus:
                                 world.LocalPlayer.Boosting = netIn.ReadBoolean();
                                 break;
+                            case GameMessageType.CoinPickedUp:
+                                ((Gold)world.GameObjects[netIn.ReadInt32()]).Collect = true;
+                                break;
+                            case GameMessageType.CoinAdded:
+                                id = netIn.ReadInt32();
+                                var x = netIn.ReadFloat();
+                                var y = netIn.ReadFloat();
+                                world.GameObjects.Add(id, new Gold(new Vector2(x, y), id));
+                                break;
                         }
                         break;
                     case NetIncomingMessageType.DiscoveryResponse:

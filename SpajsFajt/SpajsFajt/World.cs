@@ -20,6 +20,7 @@ namespace SpajsFajt
         private GUI gui = new GUI();
         private Vector2 cameraOffset = new Vector2(400, 300);
         private static Random rnd = new Random();
+        private Vector2 prevCamPos;
 
         public Player LocalPlayer
         {
@@ -92,6 +93,14 @@ namespace SpajsFajt
                         gameObjects.Remove(e.ID);
 
                 }
+
+                if (o is Gold && o.Dead)
+                {
+                   var e = (Gold)o;
+                    gameObjects.Remove(e.ID);
+
+                    localPlayer.Gold++;
+                }
                     
             }
             lastProjectile -= gameTime.ElapsedGameTime.Milliseconds;
@@ -105,7 +114,7 @@ namespace SpajsFajt
                     lastProjectile = 300;
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.O))
-                    gameObjects.Add(c, new Gold(Game1.CameraPosition, c++) { Collect = true });
+                    gameObjects.Add(c, new Gold(Game1.CameraPosition, c++) { Collect = false });
 
                 if (localPlayer.Position.Y < -1500)
                     localPlayer.Position = new Vector2(localPlayer.Position.X, -1500);
@@ -122,9 +131,14 @@ namespace SpajsFajt
                 gui.HealthGUI.Value = LocalPlayer.Health / 10;
                 gui.PowerGUI.Value = LocalPlayer.PowerLevel / 10;
                 gui.GoldGUI.Value = LocalPlayer.Gold;
+                prevCamPos = Game1.CameraPosition - prevCamPos;
+                Gold.Offset = prevCamPos;
                 Gold.Target = gui.GoldGUI.Position + gui.GoldGUI.Offset;
+
+                prevCamPos = Game1.CameraPosition;
             }
             gui.Update();
+            
         }
         
         public void Draw(SpriteBatch spriteBatch)

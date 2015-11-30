@@ -19,10 +19,10 @@ namespace SpajsFajt
         private World world = new World();
         private float powerTimer = 0;
         private float boostTimer = 0;
-        private int maxEnemies = 4;
+        private int maxEnemies = 20;
         private int enemyCount = 0;
         private float timeSinceLastEnemy = 0;
-        private float timeUNE = 5000;
+        private float timeUNE = 1000;
 
         public GameServer(int port)
         {
@@ -241,10 +241,16 @@ namespace SpajsFajt
                             netOut.Write(coin.ID);
                             netServer.SendMessage(netOut, c.Connection, NetDeliveryMethod.ReliableUnordered);
 
-                            netOut = netServer.CreateMessage();
-                            netOut.Write((int)GameMessageType.ObjectDeleted);
-                            netOut.Write(coin.ID);
-                            netServer.SendToAll(netOut, NetDeliveryMethod.ReliableUnordered);
+                            foreach (var client in world.Players)
+                            {
+                                if (client.Value == c)
+                                    continue;
+
+                                netOut = netServer.CreateMessage();
+                                netOut.Write((int)GameMessageType.ObjectDeleted);
+                                netOut.Write(coin.ID);
+                                netServer.SendMessage(netOut, client.Value.Connection, NetDeliveryMethod.ReliableUnordered);
+                            }
 
                             coin.Dead = true;
                         }

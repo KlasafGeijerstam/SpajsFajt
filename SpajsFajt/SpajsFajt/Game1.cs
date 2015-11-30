@@ -119,12 +119,12 @@ namespace SpajsFajt
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin(SpriteSortMode.FrontToBack,BlendState.AlphaBlend,SamplerState.PointClamp,DepthStencilState.Default,null,null,camera.TransformationMatrix);
-            spriteBatch.DrawString(TextureManager.GameFont, "Hejsan", Vector2.Zero, Color.BlanchedAlmond);
+            spriteBatch.Begin(SpriteSortMode.FrontToBack,BlendState.AlphaBlend,SamplerState.PointWrap,DepthStencilState.Default,null,null,camera.TransformationMatrix);
             gameClient.Draw(spriteBatch);
             spriteBatch.End();
-            // TODO: Add your drawing code here
+           
 
             base.Draw(gameTime);
         }

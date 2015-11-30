@@ -28,7 +28,8 @@
   <texture name="power0" x="0" y="0" w="0" h="0" />
   <texture name ="coin1" x="202" y="0" w="7" h="7"/>
   <texture name ="coin2" x="209" y="0" w="7" h="7"/>
-  <texture name ="coin3" x="2016" y="0" w="7" h="7"/>
-  <texture name ="coin4" x="2023" y="0" w="7" h="7"/>
+  <texture name ="coin3" x="216" y="0" w="7" h="7"/>
+  <texture name ="coin4" x="223" y="0" w="7" h="7"/>
   <texture name="guiGold" x="100" y="250" w="38" h="16"/>
+  <texture name="backdrop" x="0" y="50" w="1" h="1" />
 </doc>

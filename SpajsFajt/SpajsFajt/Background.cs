@@ -9,6 +9,7 @@ namespace SpajsFajt
     {
         private List<Border> borders = new List<Border>();
         private List<Backdrop> backdrops = new List<Backdrop>();
+        
         public Background(Vector2 p)
         {
 
@@ -22,6 +23,8 @@ namespace SpajsFajt
             borders.Add(new Border(new Rectangle(-1500, 3500, 5000, 4),false));//bot
             borders.Add(new Border(new Rectangle(-1500, -1500,5000, 4), true));//left
             borders.Add(new Border(new Rectangle(3500, -1500, 5000, 4), true));//right
+
+            backdrops.Add(new Backdrop(new Rectangle(-1500, -1500, 5000, 5000),0.3f));
 
             for (int i = 0; i < 3; i++)
             {
@@ -64,10 +67,12 @@ namespace SpajsFajt
         private Rectangle rectangle;
         private float rotation;
         private Rectangle sourceRectangle = TextureManager.GetRectangle("border");
+        
         public Border(Rectangle r,bool rotated)
         {
             rotation = (rotated) ? (float)Math.PI / 2 : 0f;
             rectangle = r;
+            
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -84,16 +89,17 @@ namespace SpajsFajt
     {
         private Rectangle rectangle { get; set; }
         private static Rectangle source;
-
-        public Backdrop(Rectangle r)
+        private float depth;
+        public Backdrop(Rectangle r, float depth = 0.4f)
         {
+            this.depth = depth;
             rectangle = r;
             if (source == Rectangle.Empty)
                 source = TextureManager.GetRectangle("background1");
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(TextureManager.SpriteSheet, rectangle, source, Color.White);
+            spriteBatch.Draw(TextureManager.SpriteSheet, rectangle, source, Color.White, 0f, Vector2.Zero, SpriteEffects.None, depth);
         }
     }
 }

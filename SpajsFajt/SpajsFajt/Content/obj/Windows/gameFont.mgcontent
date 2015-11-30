@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/Klas/Source/Repos/SpajsFajt/SpajsFajt/SpajsFajt/Content/gameFont.spritefont</SourceFile>
-  <SourceTime>2015-10-27T17:41:59.6800529+01:00</SourceTime>
-  <DestFile>C:/Users/Klas/Source/Repos/SpajsFajt/SpajsFajt/SpajsFajt/Content/bin/Windows/gameFont.xnb</DestFile>
-  <DestTime>2015-11-05T18:23:16.8020732+01:00</DestTime>
+  <SourceFile>C:/Users/97arks/Documents/Repos/SpajsFajt/SpajsFajt/SpajsFajt/Content/gameFont.spritefont</SourceFile>
+  <SourceTime>2015-11-02T09:28:00.1156991+01:00</SourceTime>
+  <DestFile>C:/Users/97arks/Documents/Repos/SpajsFajt/SpajsFajt/SpajsFajt/Content/bin/Windows/gameFont.xnb</DestFile>
+  <DestTime>2015-11-30T09:35:14.5885986+01:00</DestTime>
   <Importer>FontDescriptionImporter</Importer>
   <ImporterTime>2015-04-29T19:14:44+02:00</ImporterTime>
   <Processor>FontDescriptionProcessor</Processor>
