@@ -50,7 +50,6 @@ C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\Sharp
 C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\SharpDX.RawInput.dll
 C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\SharpDX.Direct3D9.dll
 C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\MonoGame.Framework.xml
-C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\Microsoft.Xna.Framework.xml
 C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\SharpDX.MediaFoundation.xml
 C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\SharpDX.xml
 C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajt\bin\Windows\Debug\SharpDX.XAudio2.xml

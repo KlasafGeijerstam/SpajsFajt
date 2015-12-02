@@ -21,6 +21,9 @@ namespace SpajsFajt
         private Vector2 cameraOffset = new Vector2(400, 300);
         private static Random rnd = new Random();
         private Vector2 prevCamPos;
+        private static Shop shop;
+        private static bool shopSet;
+
 
         public Player LocalPlayer
         {
@@ -31,17 +34,40 @@ namespace SpajsFajt
         public static Vector2 GetRandomBorderPosition()
         {
             var vector = new Vector2();
-            if (rnd.Next(0, 2) == 1)
-                vector.Y = -1500;
-            else
-                vector.Y = 3500;
-
-            if (rnd.Next(0, 2) == 1)
-                vector.X = -1500;
-            else
-                vector.X = 3500;
+            switch (rnd.Next(0,5))
+            {
+                case 0:
+                    //left
+                    vector.X = -1500;
+                    vector.Y = rnd.Next(-1500, 3500);
+                    break;
+                case 1:
+                    //top
+                    vector.Y = -1500;
+                    vector.X = rnd.Next(-1500, 3500);
+                    break;
+                case 2:
+                    //right
+                    vector.X = 3500;
+                    vector.Y = rnd.Next(-1500, 3500);
+                    break;
+                case 3:
+                    //bot
+                    vector.Y = 3500;
+                    vector.X = rnd.Next(-1500, 3500);
+                    break;
+            }
 
             return vector;
+        }
+
+        public static bool InShop(Vector2 v)
+        {
+            if (shop != null)
+            {
+                return shop.InShop(v);
+            }
+            else return false;
         }
 
         public Dictionary<int, GameObject> GameObjects
@@ -66,9 +92,13 @@ namespace SpajsFajt
         {
             LocalPlayerID = -1;
         }
+
+        
+
         public void Init()
         {
             background = new Background(new Vector2(0, 0));
+            shop = new Shop();
         }
         public void AddObject(GameObject g)
         {
@@ -80,7 +110,7 @@ namespace SpajsFajt
             players.Add(p.ID, p);
             gameObjects.Add(p.ID, p);
         }
-        int c = 300;
+        
         public void Update(GameTime gameTime)
         {
             foreach (var o in gameObjects.Values.ToList())
@@ -108,13 +138,11 @@ namespace SpajsFajt
             {
                 localPlayer.Input(gameTime);
 
-                if (Keyboard.GetState().IsKeyDown(Keys.E) && lastProjectile <= 0)
+                if (Keyboard.GetState().IsKeyDown(Keys.E) && lastProjectile <= 0 && !shop.InShop(localPlayer.Position))
                 {
                     RequestedProjectiles++;
                     lastProjectile = 300;
                 }
-                if (Keyboard.GetState().IsKeyDown(Keys.O))
-                    gameObjects.Add(c, new Gold(Game1.CameraPosition, c++) { Collect = false });
 
                 if (localPlayer.Position.Y < -1500)
                     localPlayer.Position = new Vector2(localPlayer.Position.X, -1500);
@@ -150,6 +178,9 @@ namespace SpajsFajt
             }
             background.Draw(spriteBatch);
             gui.Draw(spriteBatch);
+            shop.Draw(spriteBatch);
+            if(localPlayer != null)
+                spriteBatch.DrawString(TextureManager.GameFont, shop.InShop(localPlayer.Position).ToString(), shop.Position, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.7f);
         }
         public GameObject GetObject(int id)
         {

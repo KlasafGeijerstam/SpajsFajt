@@ -48,7 +48,8 @@ namespace SpajsFajt
 
         private void GetRoam()
         {
-            targetPlayer.Position = new Vector2(rnd.Next(-1500, 3500), rnd.Next(-1500, 3500));
+            while (World.InShop(targetPlayer.Position = new Vector2(rnd.Next(-1500, 3500), rnd.Next(-1500, 3500))))
+            {}
             Target = targetPlayer;
         }
 
@@ -171,7 +172,7 @@ namespace SpajsFajt
         {
             if (!Dead)
             {
-                spriteBatch.Draw(TextureManager.SpriteSheet, position, textureRectangle, Color.White, rotation + (float)Math.PI / 2, origin, 1f, SpriteEffects.None, 0.5f);
+                spriteBatch.Draw(TextureManager.SpriteSheet, position, textureRectangle, Color.White, rotation + (float)Math.PI / 2, origin, 1f, SpriteEffects.None, 0.54f);
                 emitter.Draw(spriteBatch);
             }
             else if (explosionEmitter != null)

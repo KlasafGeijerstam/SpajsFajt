@@ -209,7 +209,7 @@ namespace SpajsFajt
                         }
                         cont:
                         netOut = netServer.CreateMessage();
-                        if (p.Dead || p.Position.Y < -1500 || p.Position.Y > 3500 || p.Position.X < -1500 || p.Position.X > 3500)
+                        if (p.Dead || p.Position.Y < -1500 || p.Position.Y > 3500 || p.Position.X < -1500 || p.Position.X > 3500 || World.InShop(p.Position))
                         {
                             netOut.Write((int)GameMessageType.ObjectDeleted);
                             netOut.Write(p.ID);
@@ -280,11 +280,23 @@ namespace SpajsFajt
                         enemy.Fire();
                     }
 
+                    if (World.InShop(enemy.Position))
+                    {
+                        enemy.Dead = true;
+                        netOut = netServer.CreateMessage();
+                        netOut.Write((int)GameMessageType.EnemyDeleted);
+                        netOut.Write(enemy.ID);
+                        netServer.SendToAll(netOut, NetDeliveryMethod.ReliableUnordered);
+
+                        world.GameObjects.Remove(enemy.ID);
+                        enemyCount--;
+                    }
+
                     if (enemy.Roaming)
                     {
                         foreach (var pl in world.Players.Values)
                         {
-                            if (!pl.Dead && enemy.InRadius(pl.Position))
+                            if (!pl.Dead && !World.InShop(pl.Position) && enemy.InRadius(pl.Position))
                             {
                                 enemy.Roaming = false;
                                 enemy.Target = pl;
@@ -292,6 +304,11 @@ namespace SpajsFajt
                             }
                         }
                     }
+                    else if (World.InShop(enemy.Target.Position))
+                    {
+                        enemy.Roaming = true;
+                        enemy.Target = null;
+                    } 
                     
 
                     netOut = netServer.CreateMessage();
