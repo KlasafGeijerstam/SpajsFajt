@@ -76,7 +76,7 @@ namespace SpajsFajt
                                 world.AddObject(new Player(ID));
                                 world.LocalPlayerID = ID;
                                 world.LocalPlayer = (Player)world.GameObjects[ID];
-                                Focus.Position = new Vector2(1000, 1000);
+                                Focus.Position = World.StartPosition;
                                 Game1.Focus = Focus;
                                 break;
                             case GameMessageType.ClientUpdate:
@@ -137,6 +137,7 @@ namespace SpajsFajt
                                 var y = netIn.ReadFloat();
                                 world.GameObjects.Add(id, new Gold(new Vector2(x, y), id));
                                 break;
+                            
                         }
                         break;
                     case NetIncomingMessageType.DiscoveryResponse:

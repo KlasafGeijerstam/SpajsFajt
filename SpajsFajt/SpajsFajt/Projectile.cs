@@ -11,6 +11,7 @@ namespace SpajsFajt
     {
         public int SenderID { get; set; }
         public bool FiredByAI { get; set; }
+        private float lifeTime;
 
         public Projectile(int id,float rot,Vector2 pos):base("projectile",id)
         {
@@ -34,5 +35,12 @@ namespace SpajsFajt
         {
             position += new Vector2((float)Math.Cos(rotation) * velocity, (float)Math.Sin(rotation) * velocity);
         }
+        public void UpdateTime(GameTime gameTime)
+        {
+            lifeTime += gameTime.ElapsedGameTime.Milliseconds;
+            if (lifeTime > 2000)
+                Dead = true;
+        }
+
     }
 }

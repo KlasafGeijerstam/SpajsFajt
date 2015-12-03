@@ -23,6 +23,7 @@ namespace SpajsFajt
         private int enemyCount = 0;
         private float timeSinceLastEnemy = 0;
         private float timeUNE = 1000;
+        private Random rnd = new Random();
 
         public GameServer(int port)
         {
@@ -76,9 +77,10 @@ namespace SpajsFajt
 
                                     var offset = new Vector2((float)Math.Cos(player.Rotation * 20), (float)Math.Sin(player.Rotation * 20));
                                     var velAddition = new Vector2((float)Math.Cos(player.Rotation * player.Velocity));
-                                    world.AddObject(new Projectile(NextID(), player.Rotation, player.Position + offset) { SenderID = i});
                                     netOut = netServer.CreateMessage();
-                                    
+
+                                    player.Modifiers.GetProjectiles(player.Position + offset,player.Rotation).ForEach(x => world.AddObject(x));
+
                                     netOut.Write((int)GameMessageType.PowerUpdate);
                                     netOut.Write(player.PowerLevel);
                                     netServer.SendMessage(netOut, player.Connection, NetDeliveryMethod.ReliableUnordered); 
@@ -171,12 +173,31 @@ namespace SpajsFajt
                         netOut.Write((int)GameMessageType.PlayerDead);
                         netOut.Write(c.ID);
                         netServer.SendToAll(netOut,NetDeliveryMethod.ReliableUnordered);
+                        
+
+                        //Drop coins
+                        for (int i = 0; i < c.Gold; i++)
+                        {
+                            var d = NextID();
+                            var g = new Gold(c.Position - new Vector2(rnd.Next(-50, 50), rnd.Next(-50, 50)), d);
+                            world.GameObjects.Add(d,g);
+
+                            netOut = netServer.CreateMessage();
+                            netOut.Write((int)GameMessageType.CoinAdded);
+                            netOut.Write(d);
+                            netOut.Write(g.Position.X);
+                            netOut.Write(g.Position.Y);
+                            netServer.SendToAll(netOut, NetDeliveryMethod.ReliableUnordered);
+
+                        }
+                        c.Gold = 0;
                         c.Dead = true;
                         c.DeathSent = true;
                     }
                     //Respawn player after 5 seconds
                     if (c.Dead)
                         c.TimeDead += gameTime.ElapsedGameTime.Milliseconds;
+
                     if (c.TimeDead >= 5000)
                     {
                         c.Respawn();
@@ -190,6 +211,8 @@ namespace SpajsFajt
                         
                         var p = o;
                         NetOutgoingMessage netOut;
+
+                        p.UpdateTime(gameTime);
                         //Collision
                         if (p.CollisionRectangle.Intersects(c.CollisionRectangle) && p.SenderID != c.ID && c.LastDamageTaken >= 300 && !c.Dead)
                         {
@@ -234,12 +257,13 @@ namespace SpajsFajt
 
                     foreach (var coin in coins)
                     {
-                        if(c.CollisionRectangle.Intersects(coin.CollisionRectangle))
+                        if( ! c.Dead && c.CollisionRectangle.Intersects(coin.CollisionRectangle))
                         {
                             var netOut = netServer.CreateMessage();
                             netOut.Write((int)GameMessageType.CoinPickedUp);
                             netOut.Write(coin.ID);
                             netServer.SendMessage(netOut, c.Connection, NetDeliveryMethod.ReliableUnordered);
+                            c.Gold++;
 
                             foreach (var client in world.Players)
                             {
@@ -327,7 +351,7 @@ namespace SpajsFajt
                         if (!enemy.Dead &&  !proj.FiredByAI && proj.CollisionRectangle.Intersects(enemy.CollisionRectangle) && proj.SenderID != enemy.ID && enemy.TimeSinceLastDamage <= 0)
                         {
                             enemy.Health -= 10;
-                            enemy.TimeSinceLastDamage = 100;
+                            enemy.TimeSinceLastDamage = 20;
                             if (enemy.Health <= 0)
                             {
                                 enemy.Dead = true;

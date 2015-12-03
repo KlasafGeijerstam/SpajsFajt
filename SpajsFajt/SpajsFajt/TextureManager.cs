@@ -16,6 +16,7 @@ namespace SpajsFajt
         public static SpriteFont GameFont { get; private set; }
         private static Random rnd = new Random();
         private static Rectangle particlesRectangle;
+        private static Dictionary<string, string> stringData;
 
         public static Rectangle GetRectangle(string name)
         {
@@ -34,10 +35,20 @@ namespace SpajsFajt
             }
             
         }
-        
+
+        public static string GetString(string name)
+        {
+            if (stringData.ContainsKey(name))
+                return stringData[name];
+            else
+                return "error";
+        }
+
         public static void Load(ContentManager Content,string fileName)
         {
             textureRectangles = new Dictionary<string, Rectangle>();
+            stringData = new Dictionary<string, string>();
+
             XDocument xDoc = XDocument.Load(Content.RootDirectory + "/" +fileName);
             xDoc.Element("doc").Elements("texture").ToList().ForEach(x => {
                 textureRectangles.Add(x.Attribute("name").Value, new Rectangle(int.Parse(x.Attribute("x").Value),
@@ -45,6 +56,10 @@ namespace SpajsFajt
             });
             SpriteSheet = Content.Load<Texture2D>(xDoc.Element("doc").Element("sheet").Attribute("name").Value);
             GameFont = Content.Load<SpriteFont>("gameFont");
+            xDoc.Element("doc").Elements("stringData").ToList().ForEach(x =>
+            {
+                stringData.Add(x.Attribute("name").Value, x.Value);
+            });
             particlesRectangle = GetRectangle("particles");
         }
 
@@ -56,13 +71,13 @@ namespace SpajsFajt
         public static void Draw(this Rectangle r, SpriteBatch spriteBatch, int width = 1)
         {
             //Top
-            spriteBatch.Draw(SpriteSheet, new Rectangle(r.X, r.Y, r.Width, width), textureRectangles["error"], Color.Yellow);
+            spriteBatch.Draw(SpriteSheet, new Rectangle(r.X, r.Y, r.Width, width), textureRectangles["error"], Color.Yellow, 0f, Vector2.Zero, SpriteEffects.None, 1f);
             //Bot
-            spriteBatch.Draw(SpriteSheet, new Rectangle(r.X, r.Y +r.Height -width, r.Width, width), textureRectangles["error"], Color.Yellow);
+            spriteBatch.Draw(SpriteSheet, new Rectangle(r.X, r.Y +r.Height -width, r.Width, width), textureRectangles["error"], Color.Yellow, 0f, Vector2.Zero, SpriteEffects.None, 1f);
             //Left
-            spriteBatch.Draw(SpriteSheet, new Rectangle(r.X, r.Y, width, r.Height), textureRectangles["error"], Color.Yellow);
+            spriteBatch.Draw(SpriteSheet, new Rectangle(r.X, r.Y, width, r.Height), textureRectangles["error"], Color.Yellow, 0f, Vector2.Zero, SpriteEffects.None, 1f);
             //Right
-            spriteBatch.Draw(SpriteSheet, new Rectangle(r.X + r.Width -width, r.Y, width, r.Height), textureRectangles["error"], Color.Yellow);
+            spriteBatch.Draw(SpriteSheet, new Rectangle(r.X + r.Width -width, r.Y, width, r.Height), textureRectangles["error"], Color.Yellow,0f,Vector2.Zero,SpriteEffects.None,1f);
         }
     }
 }

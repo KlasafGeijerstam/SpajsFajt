@@ -22,6 +22,7 @@ namespace SpajsFajt
         private float timeBoosting = 0;
         private float speedOffset;
         public int Gold { get; set; }
+        public Modifiers Modifiers { get; set; }
 
         public float LastDamageTaken
         {
@@ -43,6 +44,13 @@ namespace SpajsFajt
 
         public float SpeedOffset { get { return speedOffset; } }
 
+        public new Rectangle CollisionRectangle
+        {
+            get { return new Rectangle((int)Position.X - (int)origin.X/2, (int)Position.Y -(int)origin.Y/2, collisionRectangle.Width, collisionRectangle.Height); }
+
+            set { collisionRectangle = value; }
+        }
+
         public Player(int id):
             base("shipPlayer",id)
         {
@@ -51,6 +59,7 @@ namespace SpajsFajt
             collisionRectangle.Width = 34; //39
             collisionRectangle.Height = 31; //36
             PowerLevel = 70;
+            Modifiers = new Modifiers(ID);
         }
 
         public void Die()
@@ -61,6 +70,7 @@ namespace SpajsFajt
             velocity = 0f;
             rotation = 0;
             TimeDead = 0;
+            Gold = 0;
         }
 
         public void Respawn()
@@ -80,6 +90,8 @@ namespace SpajsFajt
 
             spriteBatch.Draw(TextureManager.SpriteSheet, position, textureRectangle, Color.White, rotation + rotationOffset, origin, 1f, SpriteEffects.None, 0.6f);
             emitter.Draw(spriteBatch);
+            //CollisionRectangle.Draw(spriteBatch);
+            //spriteBatch.DrawString(TextureManager.GameFont, Position.ToString(), Position, Color.White, 0f, Vector2.Zero, 5f, SpriteEffects.None, 0.8f);
         }
 
         public void Input(GameTime gameTime)

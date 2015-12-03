@@ -25,6 +25,8 @@ namespace SpajsFajt
         private static bool shopSet;
         private Rectangle mouseTextureRectangle;
 
+        public static readonly Vector2 StartPosition = new Vector2(1200, 1200);
+
         public Player LocalPlayer
         {
             get { return localPlayer; }
@@ -34,7 +36,7 @@ namespace SpajsFajt
         public static Vector2 GetRandomBorderPosition()
         {
             var vector = new Vector2();
-            switch (rnd.Next(0,5))
+            switch (rnd.Next(0,4))
             {
                 case 0:
                     //left
@@ -98,7 +100,7 @@ namespace SpajsFajt
         public void Init()
         {
             background = new Background(new Vector2(0, 0));
-            shop = new Shop();
+            shop = new Shop(this);
         }
         public void AddObject(GameObject g)
         {
@@ -111,9 +113,7 @@ namespace SpajsFajt
             gameObjects.Add(p.ID, p);
         }
 
-        internal static void HideShop()
-        {
-        }
+        
 
         public void Update(GameTime gameTime)
         {
@@ -170,12 +170,17 @@ namespace SpajsFajt
                 prevCamPos = Game1.CameraPosition;
             }
             gui.Update();
-            
+            shop.Update(gameTime);
         }
 
+        internal static void HideShop()
+        {
+            shop.ShowShop = false;
+        }
         internal static void ShowShop()
         {
             Mouse.SetPosition(320, 200);
+            shop.ShowShop = true;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -188,13 +193,7 @@ namespace SpajsFajt
             background.Draw(spriteBatch);
             gui.Draw(spriteBatch);
             shop.Draw(spriteBatch);
-            if (localPlayer != null && localPlayer.Shopping)
-            {
-                var pos = Mouse.GetState().Position.ToVector2();
-                pos += Game1.CameraPosition;
-                pos -= new Vector2(320, 200);
-                spriteBatch.Draw(TextureManager.SpriteSheet,pos, TextureManager.GetRectangle("shopGreen"), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0.7f);
-            }
+            
             if(localPlayer != null)
                 spriteBatch.DrawString(TextureManager.GameFont, shop.InShop(localPlayer.Position).ToString(), shop.Position, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.7f);
         }

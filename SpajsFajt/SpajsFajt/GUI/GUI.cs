@@ -13,13 +13,14 @@ namespace SpajsFajt
         public GUIPower PowerGUI { get; private set; }
         public Vector2 Position { get; set; }
         public GUIGold GoldGUI { get; private set; }
+        public GUIPoints PointsGUI { get; private set; }
 
         public GUI()
         {
             HealthGUI = new GUIHealth();
             PowerGUI = new GUIPower();
             GoldGUI = new GUIGold();
-            
+            PointsGUI = new GUIPoints();
         }
 
         public void Update()
@@ -27,6 +28,7 @@ namespace SpajsFajt
             HealthGUI.Position = Position;
             PowerGUI.Position = Position;
             GoldGUI.Position = Position;
+            PointsGUI.Position = Position;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -34,6 +36,7 @@ namespace SpajsFajt
             HealthGUI.Draw(spriteBatch);
             PowerGUI.Draw(spriteBatch);
             GoldGUI.Draw(spriteBatch);
+            PointsGUI.Draw(spriteBatch);
         }
     }
 }

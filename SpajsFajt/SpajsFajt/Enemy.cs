@@ -26,6 +26,13 @@ namespace SpajsFajt
         private Player targetPlayer = new Player(-4);
         private static Random rnd = new Random();
 
+        public new Rectangle CollisionRectangle
+        {
+            get { return new Rectangle((int)Position.X - (int)origin.X /2, (int)Position.Y - (int)origin.Y /2, collisionRectangle.Width, collisionRectangle.Height); }
+
+            set { collisionRectangle = value; }
+        }
+
         public Enemy(int id):base("shipAi",id)
         {
             Position = World.GetRandomBorderPosition();
@@ -174,6 +181,7 @@ namespace SpajsFajt
             {
                 spriteBatch.Draw(TextureManager.SpriteSheet, position, textureRectangle, Color.White, rotation + (float)Math.PI / 2, origin, 1f, SpriteEffects.None, 0.54f);
                 emitter.Draw(spriteBatch);
+                CollisionRectangle.Draw(spriteBatch);
             }
             else if (explosionEmitter != null)
             {

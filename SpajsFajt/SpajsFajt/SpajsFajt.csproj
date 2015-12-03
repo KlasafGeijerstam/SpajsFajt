@@ -51,9 +51,11 @@
     <Compile Include="GUI\GUIComponent.cs" />
     <Compile Include="GUI\GUIGold.cs" />
     <Compile Include="GUI\GUIHealth.cs" />
+    <Compile Include="GUI\GUIPoints.cs" />
     <Compile Include="GUI\GUIPower.cs" />
     <Compile Include="ICollidable.cs" />
     <Compile Include="IDrawable.cs" />
+    <Compile Include="Modifiers.cs" />
     <Compile Include="Particle\EngineParticle.cs" />
     <Compile Include="Particle\ExplosionEmitter.cs" />
     <Compile Include="Particle\ExplosionParticle.cs" />
