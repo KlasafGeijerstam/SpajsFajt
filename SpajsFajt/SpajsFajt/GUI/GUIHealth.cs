@@ -24,7 +24,7 @@ namespace SpajsFajt
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(TextureManager.SpriteSheet, Position +Offset, TextureRectangle, Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0.5f);
+            spriteBatch.Draw(TextureManager.SpriteSheet, Position +Offset, TextureRectangle, Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0.71f);
         }
 
         public override void Update(GameTime gameTime)

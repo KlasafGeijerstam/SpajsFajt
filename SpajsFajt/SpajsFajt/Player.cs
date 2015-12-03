@@ -35,8 +35,11 @@ namespace SpajsFajt
         private ShipEmitter emitter = new ShipEmitter();
         private float lastVelocity = 0f;
         private ExplosionEmitter explosionEmitter;
+        private bool shopKeyUp;
+
         public float TimeDead { get; set; }
         public int PowerLevel { get; set; }
+        public bool Shopping { get; set; }
 
         public float SpeedOffset { get { return speedOffset; } }
 
@@ -75,7 +78,7 @@ namespace SpajsFajt
             if (explosionEmitter != null)
                 explosionEmitter.Draw(spriteBatch);
 
-            spriteBatch.Draw(TextureManager.SpriteSheet, position, textureRectangle, Color.White, rotation + rotationOffset, origin, 1f, SpriteEffects.None, 1f);
+            spriteBatch.Draw(TextureManager.SpriteSheet, position, textureRectangle, Color.White, rotation + rotationOffset, origin, 1f, SpriteEffects.None, 0.6f);
             emitter.Draw(spriteBatch);
         }
 
@@ -87,6 +90,11 @@ namespace SpajsFajt
                 var ks = Keyboard.GetState();
                 if (ks.IsKeyDown(Keys.W))
                 {
+                    if (Shopping)
+                    {
+                        World.HideShop();
+                        Shopping = false;
+                    }
                     if (!Boosting)
                     {
                         velocity += 0.01f;
@@ -137,6 +145,22 @@ namespace SpajsFajt
                 }
                 else
                     BoostRequest = false;
+
+                if (World.InShop(Position))
+                {
+                    if (ks.IsKeyDown(Keys.B) && shopKeyUp)
+                    {
+                        Velocity = 0f;
+                        Shopping = true;
+                        World.ShowShop();
+                        shopKeyUp = false;
+                    }
+                }
+                if (ks.IsKeyUp(Keys.B))
+                {
+                    shopKeyUp = true;
+                }
+                
 
             }
 

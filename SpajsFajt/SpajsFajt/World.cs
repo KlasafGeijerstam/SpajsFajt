@@ -23,7 +23,7 @@ namespace SpajsFajt
         private Vector2 prevCamPos;
         private static Shop shop;
         private static bool shopSet;
-
+        private Rectangle mouseTextureRectangle;
 
         public Player LocalPlayer
         {
@@ -110,7 +110,11 @@ namespace SpajsFajt
             players.Add(p.ID, p);
             gameObjects.Add(p.ID, p);
         }
-        
+
+        internal static void HideShop()
+        {
+        }
+
         public void Update(GameTime gameTime)
         {
             foreach (var o in gameObjects.Values.ToList())
@@ -168,7 +172,12 @@ namespace SpajsFajt
             gui.Update();
             
         }
-        
+
+        internal static void ShowShop()
+        {
+            Mouse.SetPosition(320, 200);
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             foreach (var o in gameObjects.Values)
@@ -179,6 +188,13 @@ namespace SpajsFajt
             background.Draw(spriteBatch);
             gui.Draw(spriteBatch);
             shop.Draw(spriteBatch);
+            if (localPlayer != null && localPlayer.Shopping)
+            {
+                var pos = Mouse.GetState().Position.ToVector2();
+                pos += Game1.CameraPosition;
+                pos -= new Vector2(320, 200);
+                spriteBatch.Draw(TextureManager.SpriteSheet,pos, TextureManager.GetRectangle("shopGreen"), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0.7f);
+            }
             if(localPlayer != null)
                 spriteBatch.DrawString(TextureManager.GameFont, shop.InShop(localPlayer.Position).ToString(), shop.Position, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.7f);
         }
