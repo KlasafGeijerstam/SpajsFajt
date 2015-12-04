@@ -27,6 +27,8 @@ namespace SpajsFajt
         public bool UpdateGold { get; set; }
         public List<int> Modifications = new List<int>();
         public static readonly Vector2 StartPosition = new Vector2(1200, 1200);
+        public bool RemoveShieldPower { get; set; }
+
 
         public Player LocalPlayer
         {
@@ -142,6 +144,11 @@ namespace SpajsFajt
             if (LocalPlayerID != -1)
             {
                 localPlayer.Input(gameTime);
+                if (localPlayer.RemoveShieldPower)
+                {
+                    RemoveShieldPower = true;
+                    localPlayer.RemoveShieldPower = false;
+                }
 
                 if (Keyboard.GetState().IsKeyDown(Keys.E) && lastProjectile <= 0 && !shop.InShop(localPlayer.Position))
                 {
@@ -167,11 +174,14 @@ namespace SpajsFajt
                 prevCamPos = Game1.CameraPosition - prevCamPos;
                 Gold.Offset = prevCamPos;
                 Gold.Target = gui.GoldGUI.Position + gui.GoldGUI.Offset;
+                gui.PointsGUI.Value = localPlayer.Score;
 
                 prevCamPos = Game1.CameraPosition;
             }
             gui.Update();
             shop.Update(gameTime);
+
+
         }
 
         internal static void HideShop()
@@ -194,9 +204,6 @@ namespace SpajsFajt
             background.Draw(spriteBatch);
             gui.Draw(spriteBatch);
             shop.Draw(spriteBatch);
-            
-            if(localPlayer != null)
-                spriteBatch.DrawString(TextureManager.GameFont, shop.InShop(localPlayer.Position).ToString(), shop.Position, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.7f);
         }
         public GameObject GetObject(int id)
         {

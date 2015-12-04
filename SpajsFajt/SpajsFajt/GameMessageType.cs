@@ -24,6 +24,9 @@ namespace SpajsFajt
         CoinAdded = 14,
         CoinPickedUp = 15,
         GoldUpdate = 16,
-        ModificationAdded = 17
+        ModificationAdded = 17,
+        Rainbow = 18,
+        PointsUpdate = 19,
+        RemoveShieldPower = 20
     };
 }

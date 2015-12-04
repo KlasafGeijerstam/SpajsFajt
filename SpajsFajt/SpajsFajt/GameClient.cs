@@ -85,7 +85,10 @@ namespace SpajsFajt
                                 var r = netIn.ReadFloat();
                                 var vel = netIn.ReadFloat();
                                 world.DoUpdate(id, v, r, vel);
-                                ((Player)(world.GameObjects[id])).Boosting = netIn.ReadBoolean();
+                                var p = ((Player)(world.GameObjects[id]));
+                                p.Boosting = netIn.ReadBoolean();
+                                p.Shielding = netIn.ReadBoolean();
+
                                 break;
                             case GameMessageType.ObjectUpdate:
                                 id = netIn.ReadInt32();
@@ -137,6 +140,12 @@ namespace SpajsFajt
                                 var y = netIn.ReadFloat();
                                 world.GameObjects.Add(id, new Gold(new Vector2(x, y), id));
                                 break;
+                            case GameMessageType.Rainbow:
+                                ((Player)world.GameObjects[netIn.ReadInt32()]).Modifiers.Rainbow = true;
+                                break;
+                            case GameMessageType.PointsUpdate:
+                                world.LocalPlayer.Score = netIn.ReadInt32();
+                                break;
                             
                         }
                         break;
@@ -158,6 +167,7 @@ namespace SpajsFajt
                 netOut.Write(p.Position.Y);
                 netOut.Write(p.Rotation);
                 netOut.Write(p.Velocity);
+                netOut.Write(p.Shielding);
                 netClient.SendMessage(netOut, NetDeliveryMethod.Unreliable);
                 nextSendUpdate = updateFrequency;
 
@@ -197,6 +207,15 @@ namespace SpajsFajt
                     netOut.Write(i);
                     netClient.SendMessage(netOut, NetDeliveryMethod.ReliableUnordered);
                 }
+                if (world.RemoveShieldPower)
+                {
+                    netOut = netClient.CreateMessage();
+                    netOut.Write((int)GameMessageType.RemoveShieldPower);
+                    netOut.Write(world.LocalPlayer.ID);
+                    netClient.SendMessage(netOut, NetDeliveryMethod.ReliableUnordered);
+                    world.RemoveShieldPower = false;
+                }
+
                 world.Modifications.Clear();
             }
             prevPos = Position;

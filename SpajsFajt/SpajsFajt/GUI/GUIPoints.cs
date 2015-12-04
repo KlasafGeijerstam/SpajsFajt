@@ -24,8 +24,8 @@ namespace SpajsFajt
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(TextureManager.SpriteSheet, Position + Offset, TextureRectangle, Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0.71f);
-            spriteBatch.DrawString(TextureManager.GameFont, Value.ToString(), Position + Offset + textOffset, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.72f);
+            spriteBatch.Draw(TextureManager.SpriteSheet, Position + Offset, TextureRectangle, Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0.91f);
+            spriteBatch.DrawString(TextureManager.GameFont, Value.ToString(), Position + Offset + textOffset, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.92f);
         }
         public new int Value { get; set; }
     }

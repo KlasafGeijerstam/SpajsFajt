@@ -12,7 +12,7 @@ namespace SpajsFajt
         public int SenderID { get; set; }
         public bool FiredByAI { get; set; }
         private float lifeTime;
-
+        public float SpeedOffset { get; set; }
         public Projectile(int id,float rot,Vector2 pos):base("projectile",id)
         {
             Position = pos;
@@ -29,11 +29,12 @@ namespace SpajsFajt
         }
         public override void Update(GameTime gameTime)
         {
+            
             base.Update(gameTime);
         }
         public void Move()
         {
-            position += new Vector2((float)Math.Cos(rotation) * velocity, (float)Math.Sin(rotation) * velocity);
+            position += new Vector2((float)Math.Cos(rotation) * velocity*SpeedOffset, (float)Math.Sin(rotation) * velocity*SpeedOffset);
         }
         public void UpdateTime(GameTime gameTime)
         {

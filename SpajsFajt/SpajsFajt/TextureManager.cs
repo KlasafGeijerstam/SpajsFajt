@@ -16,7 +16,7 @@ namespace SpajsFajt
         public static SpriteFont GameFont { get; private set; }
         private static Random rnd = new Random();
         private static Rectangle particlesRectangle;
-        private static Dictionary<string, string> stringData;
+        private static Dictionary<string, StringData> stringData;
 
         public static Rectangle GetRectangle(string name)
         {
@@ -36,18 +36,18 @@ namespace SpajsFajt
             
         }
 
-        public static string GetString(string name)
+        public static StringData GetString(string name)
         {
             if (stringData.ContainsKey(name))
                 return stringData[name];
             else
-                return "error";
+                return  new StringData("error",0);
         }
 
         public static void Load(ContentManager Content,string fileName)
         {
             textureRectangles = new Dictionary<string, Rectangle>();
-            stringData = new Dictionary<string, string>();
+            stringData = new Dictionary<string, StringData>();
 
             XDocument xDoc = XDocument.Load(Content.RootDirectory + "/" +fileName);
             xDoc.Element("doc").Elements("texture").ToList().ForEach(x => {
@@ -58,7 +58,7 @@ namespace SpajsFajt
             GameFont = Content.Load<SpriteFont>("gameFont");
             xDoc.Element("doc").Elements("stringData").ToList().ForEach(x =>
             {
-                stringData.Add(x.Attribute("name").Value, x.Value);
+                stringData.Add(x.Attribute("name").Value, new StringData(x.Value.Replace('|','\n').Replace('_',' '),int.Parse(x.Attribute("cost").Value)));
             });
             particlesRectangle = GetRectangle("particles");
         }
@@ -78,6 +78,15 @@ namespace SpajsFajt
             spriteBatch.Draw(SpriteSheet, new Rectangle(r.X, r.Y, width, r.Height), textureRectangles["error"], Color.Yellow, 0f, Vector2.Zero, SpriteEffects.None, 1f);
             //Right
             spriteBatch.Draw(SpriteSheet, new Rectangle(r.X + r.Width -width, r.Y, width, r.Height), textureRectangles["error"], Color.Yellow,0f,Vector2.Zero,SpriteEffects.None,1f);
+        }
+    }
+    class StringData
+    {
+        public string Data { get; set; }
+        public int Cost { get; set; }
+        public StringData(string data, int cost)
+        {
+            Data = data; Cost = cost;
         }
     }
 }

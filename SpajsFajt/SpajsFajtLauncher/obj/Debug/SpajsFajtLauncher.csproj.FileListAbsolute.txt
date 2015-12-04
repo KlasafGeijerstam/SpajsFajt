@@ -15,8 +15,6 @@ C:\Users\97arks\documents\visual studio 2015\Projects\SpajsFajt\SpajsFajtLaunche
 C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\bin\Debug\SpajsFajtLauncher.exe.config
 C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\bin\Debug\SpajsFajtLauncher.exe
 C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\bin\Debug\SpajsFajtLauncher.pdb
-C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\bin\Debug\SpajsFajtLauncher.exe.CodeAnalysisLog.xml
-C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\bin\Debug\SpajsFajtLauncher.exe.lastcodeanalysissucceeded
 C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\obj\Debug\SpajsFajtLauncher.csprojResolveAssemblyReference.cache
 C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\obj\Debug\MainWindow.g.cs
 C:\Users\Klas\Source\Repos\SpajsFajt\SpajsFajt\SpajsFajtLauncher\obj\Debug\App.g.cs

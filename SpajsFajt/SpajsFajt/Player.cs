@@ -23,6 +23,9 @@ namespace SpajsFajt
         private float speedOffset;
         public int Gold { get; set; }
         public Modifiers Modifiers { get; set; }
+        public bool RemoveShieldPower { get; set; }
+
+        public bool Shielding { get; set; }
 
         public float LastDamageTaken
         {
@@ -37,6 +40,7 @@ namespace SpajsFajt
         private float lastVelocity = 0f;
         private ExplosionEmitter explosionEmitter;
         private bool shopKeyUp;
+        private bool shieldKeyUp;
 
         public float TimeDead { get; set; }
         public int PowerLevel { get; set; }
@@ -50,6 +54,8 @@ namespace SpajsFajt
 
             set { collisionRectangle = value; }
         }
+
+        public int Score { get; internal set; }
 
         public Player(int id):
             base("shipPlayer",id)
@@ -96,6 +102,9 @@ namespace SpajsFajt
                 spriteBatch.DrawString(TextureManager.GameFont, (5 - Math.Round(TimeDead / 1000)).ToString(), Position, Color.Green,0f,Vector2.Zero,2f,SpriteEffects.None,0.85f);
             //CollisionRectangle.Draw(spriteBatch);
             //spriteBatch.DrawString(TextureManager.GameFont, Position.ToString(), Position, Color.White, 0f, Vector2.Zero, 5f, SpriteEffects.None, 0.8f);
+            Modifiers.Shield.Draw(spriteBatch);
+            if (Modifiers.Rainbow)
+                emitter.Rainbow = true;
         }
 
         public void Input(GameTime gameTime)
@@ -113,9 +122,9 @@ namespace SpajsFajt
                     }
                     if (!Boosting)
                     {
-                        velocity += 0.01f;
-                        if (velocity > speed + speedOffset)
-                            velocity = speed + speedOffset;
+                        velocity += 0.01f * Modifiers.SpeedModification();
+                        if (velocity > (speed + speedOffset)*Modifiers.SpeedModification())
+                            velocity = (speed + speedOffset) * Modifiers.SpeedModification();
 
                         if (speedOffset > 0)
                             speedOffset -= 0.01f;
@@ -124,16 +133,16 @@ namespace SpajsFajt
                     }
                     else
                     {
-                        velocity += 0.04f;
-                        if (Velocity > (speed * 2))
-                            velocity = speed * 2;
+                        velocity += 0.04f * Modifiers.SpeedModification();
+                        if (Velocity > (speed * 2 * Modifiers.SpeedModification()))
+                            velocity = speed * 2 * Modifiers.SpeedModification();
 
-                        speedOffset = speed;
+                        speedOffset = speed * Modifiers.SpeedModification();
                     }
                 }
                 else
                 {
-                    velocity -= 0.01f;
+                    velocity -= 0.01f * Modifiers.SpeedModification();
                     if (velocity < 0.1f)
                         velocity = 0f;
                 }
@@ -170,14 +179,24 @@ namespace SpajsFajt
                         Shopping = true;
                         World.ShowShop();
                         shopKeyUp = false;
+                        Position = World.StartPosition;
                     }
                 }
                 if (ks.IsKeyUp(Keys.B))
                 {
                     shopKeyUp = true;
                 }
-                
 
+                if (Modifiers.Shield.Level != ShieldEnum.None && ks.IsKeyDown(Keys.Q) && PowerLevel >= 30 && !Shielding && shieldKeyUp)
+                {
+                    Modifiers.Shield.Active = true;
+                    RemoveShieldPower = true;
+                    shieldKeyUp = false;
+                }
+                else if (ks.IsKeyUp(Keys.Q))
+                    shieldKeyUp = true;
+
+                Shielding = Modifiers.Shield.Active;
             }
 
             position += new Vector2((float)Math.Cos(rotation) * velocity, (float)Math.Sin(rotation) * velocity);
@@ -186,7 +205,7 @@ namespace SpajsFajt
         {
             playerRectangle.X = (int)position.X;
             playerRectangle.Y = (int)position.Y;
-            emitter.Position = new Vector2(position.X - (float)Math.Cos(rotation) * 20, position.Y -(float)Math.Sin(rotation) * 20);
+            emitter.Position = new Vector2(position.X - (float)Math.Cos(rotation) * 10, position.Y -(float)Math.Sin(rotation) * 10);
             emitter.Rotation = rotation + (float)Math.PI;
             emitter.Update(gameTime);
             emitter.ParticleSpeed = ((velocity) < .5f) ? 1f: speedOffset + velocity*1.5f;
@@ -208,7 +227,8 @@ namespace SpajsFajt
                 emitter.GenerateParticle(5);
 
             lastVelocity = velocity;
-
+            Modifiers.Shield.Position = Position;
+            Modifiers.Shield.Update(gameTime);
             collisionRectangle.X = (int)(position.X-collisionRectangle.Height/2);
             collisionRectangle.Y = (int)(position.Y -collisionRectangle.Width/2);
         }

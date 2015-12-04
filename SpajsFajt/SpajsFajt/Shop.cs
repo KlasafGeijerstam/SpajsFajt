@@ -41,7 +41,7 @@ namespace SpajsFajt
             //Setup
             for (int i = 1; i < 13; i++)
             {
-                shopItems.Add(new ShopItem(i,"text" + i, GetItemRectangle(i)) { Cost = 1});
+                shopItems.Add(new ShopItem(i,"shopItem" + i, GetItemRectangle(i)));
             }
         }
 
@@ -150,7 +150,7 @@ namespace SpajsFajt
         private string data;
         private Vector2 position;
         public int Cost { get; set; }
-        private static Vector2 textOffset = new Vector2(20, 30);
+        private static Vector2 textOffset = new Vector2(40, 15);
         public bool Bought { get; set; }
         public int Type { get; private set; }
         public static bool Show { get; set; }
@@ -158,8 +158,10 @@ namespace SpajsFajt
         public ShopItem(int type,string textName,Rectangle colRect)
         {
             CollisionRectangle = colRect;
-            //data = TextureManager.GetString(textName);
-            data = textName;
+            var d = TextureManager.GetString(textName);
+            data = d.Data;
+            Cost = d.Cost;
+            //data = textName;
             position = new Vector2(colRect.X, colRect.Y);
             Type = type;
         }

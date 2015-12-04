@@ -66,7 +66,8 @@ namespace SpajsFajt
                                 var v = new Vector2(netIn.ReadFloat(), netIn.ReadFloat());
                                 var r = netIn.ReadFloat();
                                 var vel = netIn.ReadFloat();
-                                world.DoUpdate(i, v, r,vel);
+                                world.DoUpdate(i, v, r, vel);
+                                world.Players[i].Shielding = netIn.ReadBoolean();
                                 break;
                             case GameMessageType.ProjectileRequest:
                                 i = netIn.ReadInt32();
@@ -79,11 +80,11 @@ namespace SpajsFajt
                                     var velAddition = new Vector2((float)Math.Cos(player.Rotation * player.Velocity));
                                     netOut = netServer.CreateMessage();
 
-                                    player.Modifiers.GetProjectiles(player.Position + offset,player.Rotation).ForEach(x => world.AddObject(x));
+                                    player.Modifiers.GetProjectiles(player.Position + offset, player.Rotation).ForEach(x => world.AddObject(x));
 
                                     netOut.Write((int)GameMessageType.PowerUpdate);
                                     netOut.Write(player.PowerLevel);
-                                    netServer.SendMessage(netOut, player.Connection, NetDeliveryMethod.ReliableUnordered); 
+                                    netServer.SendMessage(netOut, player.Connection, NetDeliveryMethod.ReliableUnordered);
                                 }
                                 break;
                             case GameMessageType.BoostRequest:
@@ -94,7 +95,20 @@ namespace SpajsFajt
                                 world.Players[netIn.ReadInt32()].Gold = netIn.ReadInt32();
                                 break;
                             case GameMessageType.ModificationAdded:
-                                world.Players[netIn.ReadInt32()].Modifiers.Modify(netIn.ReadInt32());
+                                i = netIn.ReadInt32();
+                                var t = netIn.ReadInt32();
+                                world.Players[i].Modifiers.Modify(t);
+                                if (t == 12)
+                                {
+                                    netOut = netServer.CreateMessage();
+                                    netOut.Write((int)GameMessageType.Rainbow);
+                                    netOut.Write(i);
+                                    netServer.SendToAll(netOut, NetDeliveryMethod.ReliableUnordered);
+                                }
+                                break;
+                            case GameMessageType.RemoveShieldPower:
+                                i = netIn.ReadInt32();
+                                world.Players[i].PowerLevel -= 30;
                                 break;
                             default:
                                 //Got unknown message type
@@ -164,6 +178,7 @@ namespace SpajsFajt
                             netOut.Write(c.Rotation);
                             netOut.Write(c.Velocity);
                             netOut.Write(c.Boosting);
+                            netOut.Write(c.Shielding);
                             netServer.SendMessage(netOut, c2.Connection, NetDeliveryMethod.Unreliable);
                         }
                     }
@@ -220,10 +235,16 @@ namespace SpajsFajt
 
                         p.UpdateTime(gameTime);
                         //Collision
-                        if (p.CollisionRectangle.Intersects(c.CollisionRectangle) && p.SenderID != c.ID && c.LastDamageTaken >= 300 && !c.Dead)
+                        if (c.Shielding && Shield.HitShield(c.Position, p.Position))
+                            p.Dead = true;
+
+                        if (p.CollisionRectangle.Intersects(c.CollisionRectangle) && p.SenderID != c.ID && c.LastDamageTaken >= 300 && !c.Dead && !p.Dead)
                         {
-                            c.LastDamageTaken = 0;
-                            c.Health -= 10;
+                            if (!c.Shielding)
+                            {
+                                c.LastDamageTaken = 0;
+                                c.Health -= 10;
+                            }
                             p.Dead = true;
                             if (c.Health < 0)
                             {
@@ -306,7 +327,7 @@ namespace SpajsFajt
                     if (enemy.FireProjectile)
                     {
                         var offset = new Vector2((float)Math.Cos(enemy.Rotation * 20), (float)Math.Sin(enemy.Rotation * 20));
-                        world.AddObject(new Projectile(NextID(), enemy.Rotation, enemy.Position + offset) { SenderID = enemy.ID,FiredByAI = true });
+                        world.AddObject(new Projectile(NextID(), enemy.Rotation, enemy.Position + offset) { SenderID = enemy.ID,FiredByAI = true ,SpeedOffset = 1.0f});
                         enemy.Fire();
                     }
 
@@ -358,8 +379,15 @@ namespace SpajsFajt
                         {
                             enemy.Health -= 10;
                             enemy.TimeSinceLastDamage = 20;
+                            proj.Dead = true;
                             if (enemy.Health <= 0)
                             {
+                                world.Players[proj.SenderID].Score += 100;
+                                netOut = netServer.CreateMessage();
+                                netOut.Write((int)GameMessageType.PointsUpdate);
+                                netOut.Write(world.Players[proj.SenderID].Score);
+                                netServer.SendMessage(netOut, world.Players[proj.SenderID].Connection, NetDeliveryMethod.ReliableUnordered);
+
                                 enemy.Dead = true;
                                 proj.Dead = true;
                                 netOut = netServer.CreateMessage();

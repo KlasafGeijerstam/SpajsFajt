@@ -181,7 +181,6 @@ namespace SpajsFajt
             {
                 spriteBatch.Draw(TextureManager.SpriteSheet, position, textureRectangle, Color.White, rotation + (float)Math.PI / 2, origin, 1f, SpriteEffects.None, 0.54f);
                 emitter.Draw(spriteBatch);
-                CollisionRectangle.Draw(spriteBatch);
             }
             else if (explosionEmitter != null)
             {

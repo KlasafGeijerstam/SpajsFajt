@@ -4,7 +4,7 @@
   <texture name="error" x="0" y="0" w="50" h="50"/>
   <texture name="shipPlayer" x="150" y="0" w="50" h="50"/>
   <texture name="shipAi" x ="50" y="0" w="50" h="50"/>
-  <texture name ="background1" x="0" y ="50" w="200" h="200"/>
+  <texture name ="background1" x="0" y ="50" w="199" h="199"/>
   <texture name="border" x="200" y="50" w="4" h="200"/>
   <texture name="particles" x="100" y="0" w="50" h="50"/>
   <texture name="particleWhite" x="200" y="50" w="2" h="2"/>
@@ -39,6 +39,18 @@
   <texture name="shopRed" x="50" y="322" w="7" h="7"/>
   <texture name="shopButtons" x="0" y="322" w="50" h="50"/>
   <texture name="cursor" x="50" y="336" w="7" h="7"/>
-
-  <stringData name="shopItem1">This is a test string</stringData>
+  <texture name="shield" x="205" y="50" w="50" h="50"/>
+  
+  <stringData name="shopItem1" cost="10">___________Scatter 1|Fires 2 lasers|Cost: 10G</stringData>
+  <stringData name="shopItem5" cost="20">___________Scatter 2|Fires 3 lasers|Cost: 20G</stringData>
+  <stringData name="shopItem9" cost="40">___________Scatter 3|Fires 4 lasers|Cost: 40G</stringData>
+  <stringData name="shopItem2" cost="15">___________Shield 1|Use: "Q", lasts 1 sec|Cost: 15G</stringData>
+  <stringData name="shopItem6" cost="20">___________Shield 2|Use: "Q", lasts 2 sec|Cost: 20G</stringData>
+  <stringData name="shopItem10" cost="30">___________Shield 3|Use: "Q", lasts 3 sec|Cost: 30G</stringData>
+  <stringData name="shopItem3" cost="10">________Laser Focus 1|Lasers travel 15% faster|Cost: 10G</stringData>
+  <stringData name="shopItem7" cost="25">________Laser Focus 2|Lasers travel 25% faster|Cost: 25G</stringData>
+  <stringData name="shopItem11" cost="35">________Laser Focus 3|Lasers travel 35% faster|Cost: 35G</stringData>
+  <stringData name="shopItem4" cost="20">___________Engine 1|15% Speed increase|Cost: 20G</stringData>
+  <stringData name="shopItem8" cost="30">___________Engine 2|30% Speed increase|Cost: 30G</stringData>
+  <stringData name="shopItem12" cost="20">___________Rainbow|Rainbow particles|Cost: 20G</stringData>
 </doc>

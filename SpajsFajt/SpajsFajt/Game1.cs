@@ -121,11 +121,9 @@ namespace SpajsFajt
         {
             
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin(SpriteSortMode.FrontToBack,BlendState.AlphaBlend,SamplerState.PointWrap,DepthStencilState.Default,null,null,camera.TransformationMatrix);
+            spriteBatch.Begin(SpriteSortMode.FrontToBack,BlendState.AlphaBlend,SamplerState.PointClamp,DepthStencilState.Default,null,null,camera.TransformationMatrix);
             gameClient.Draw(spriteBatch);
             spriteBatch.End();
-           
-
             base.Draw(gameTime);
         }
     }
