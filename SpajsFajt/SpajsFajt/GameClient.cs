@@ -180,6 +180,24 @@ namespace SpajsFajt
                     netClient.SendMessage(netOut, NetDeliveryMethod.ReliableUnordered);
                 }
                 p.LastBoostValue = p.BoostRequest;
+
+                if (world.UpdateGold)
+                {
+                    netOut = netClient.CreateMessage();
+                    netOut.Write((int)GameMessageType.GoldUpdate);
+                    netOut.Write(world.LocalPlayer.ID);
+                    netOut.Write(world.LocalPlayer.Gold);
+                    netClient.SendMessage(netOut, NetDeliveryMethod.ReliableUnordered);
+                }
+                foreach (var i in world.Modifications)
+                {
+                    netOut = netClient.CreateMessage();
+                    netOut.Write((int)GameMessageType.ModificationAdded);
+                    netOut.Write(world.LocalPlayer.ID);
+                    netOut.Write(i);
+                    netClient.SendMessage(netOut, NetDeliveryMethod.ReliableUnordered);
+                }
+                world.Modifications.Clear();
             }
             prevPos = Position;
             prevRot = Rotation;

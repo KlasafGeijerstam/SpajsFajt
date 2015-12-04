@@ -24,7 +24,8 @@ namespace SpajsFajt
         private static Shop shop;
         private static bool shopSet;
         private Rectangle mouseTextureRectangle;
-
+        public bool UpdateGold { get; set; }
+        public List<int> Modifications = new List<int>();
         public static readonly Vector2 StartPosition = new Vector2(1200, 1200);
 
         public Player LocalPlayer

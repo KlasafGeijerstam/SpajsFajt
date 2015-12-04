@@ -22,6 +22,8 @@ namespace SpajsFajt
         BoostStatus = 12,
         EnemyDeleted = 13,
         CoinAdded = 14,
-        CoinPickedUp = 15
+        CoinPickedUp = 15,
+        GoldUpdate = 16,
+        ModificationAdded = 17
     };
 }

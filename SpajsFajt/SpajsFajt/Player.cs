@@ -71,6 +71,7 @@ namespace SpajsFajt
             rotation = 0;
             TimeDead = 0;
             Gold = 0;
+            
         }
 
         public void Respawn()
@@ -81,6 +82,7 @@ namespace SpajsFajt
             DeathSent = false;
             Health = 70;
             PowerLevel = 70;
+            Position = World.StartPosition;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -90,6 +92,8 @@ namespace SpajsFajt
 
             spriteBatch.Draw(TextureManager.SpriteSheet, position, textureRectangle, Color.White, rotation + rotationOffset, origin, 1f, SpriteEffects.None, 0.6f);
             emitter.Draw(spriteBatch);
+            if (Dead)
+                spriteBatch.DrawString(TextureManager.GameFont, (5 - Math.Round(TimeDead / 1000)).ToString(), Position, Color.Green,0f,Vector2.Zero,2f,SpriteEffects.None,0.85f);
             //CollisionRectangle.Draw(spriteBatch);
             //spriteBatch.DrawString(TextureManager.GameFont, Position.ToString(), Position, Color.White, 0f, Vector2.Zero, 5f, SpriteEffects.None, 0.8f);
         }

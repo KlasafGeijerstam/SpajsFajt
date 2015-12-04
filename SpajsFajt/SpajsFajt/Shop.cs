@@ -23,6 +23,7 @@ namespace SpajsFajt
         private Vector2 shopPos;
         private World localWorld;
         private List<ShopItem> shopItems = new List<ShopItem>();
+        private bool mouseUp;
 
         public bool ShowShop
         {
@@ -40,9 +41,25 @@ namespace SpajsFajt
             //Setup
             for (int i = 1; i < 13; i++)
             {
-                shopItems.Add(new ShopItem("text" + i, GetItemRectangle(i)));
+                shopItems.Add(new ShopItem(i,"text" + i, GetItemRectangle(i)) { Cost = 1});
             }
+        }
 
+        private bool Shop_TryPurchase(ShopItem i)
+        {
+            mouseUp = false;
+            if (i.Bought)
+                return false;
+
+            if (localWorld.LocalPlayer.Gold >= i.Cost && localWorld.LocalPlayer.Modifiers.Modify(i.Type))
+            {
+                localWorld.LocalPlayer.Gold -= i.Cost;
+                localWorld.UpdateGold = true;
+                i.Bought = true;
+                localWorld.Modifications.Add(i.Type);
+            }
+            else return false;
+            return true;
         }
 
         public bool InShop(Vector2 v)
@@ -109,10 +126,20 @@ namespace SpajsFajt
                 if (ShowShop && MouseRect().Intersects(item.CollisionRectangle))
                 {
                     item.Hover = true;
+                    if (Mouse.GetState().LeftButton == ButtonState.Pressed && mouseUp)
+                        Shop_TryPurchase(item);
                 }
                 else
+                {
                     item.Hover = false;
+                        
+                }
+                    
             }
+            if (Mouse.GetState().LeftButton == ButtonState.Released)
+                mouseUp = true;
+
+            ShopItem.Show = ShowShop;
         }
     }
 
@@ -122,12 +149,19 @@ namespace SpajsFajt
         public Rectangle CollisionRectangle { get; set; }
         private string data;
         private Vector2 position;
-        public ShopItem(string textName,Rectangle colRect)
+        public int Cost { get; set; }
+        private static Vector2 textOffset = new Vector2(20, 30);
+        public bool Bought { get; set; }
+        public int Type { get; private set; }
+        public static bool Show { get; set; }
+
+        public ShopItem(int type,string textName,Rectangle colRect)
         {
             CollisionRectangle = colRect;
             //data = TextureManager.GetString(textName);
             data = textName;
             position = new Vector2(colRect.X, colRect.Y);
+            Type = type;
         }
 
         public void Draw(Vector2 basePos,SpriteBatch spriteBatch)
@@ -135,13 +169,18 @@ namespace SpajsFajt
             if (Hover)
             {
                 spriteBatch.Draw(TextureManager.SpriteSheet, CollisionRectangle, TextureManager.GetRectangle("shopGreen"), Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.72f);
-                spriteBatch.DrawString(TextureManager.GameFont, data, basePos, Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0.73f);
+                spriteBatch.DrawString(TextureManager.GameFont, data, basePos + textOffset, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.73f);
+            }
+            if (Bought && Show)
+            {
+                spriteBatch.Draw(TextureManager.SpriteSheet, CollisionRectangle, TextureManager.GetRectangle("shopGreen"), Color.Yellow, 0f, Vector2.Zero, SpriteEffects.None, 0.715f);
             }
             
         }
 
         public void Update(GameTime gameTime)
         {
+
         }
     }
 }

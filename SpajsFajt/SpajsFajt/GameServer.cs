@@ -90,6 +90,12 @@ namespace SpajsFajt
                                 i = netIn.ReadInt32();
                                 world.Players[i].Boosting = netIn.ReadBoolean();
                                 break;
+                            case GameMessageType.GoldUpdate:
+                                world.Players[netIn.ReadInt32()].Gold = netIn.ReadInt32();
+                                break;
+                            case GameMessageType.ModificationAdded:
+                                world.Players[netIn.ReadInt32()].Modifiers.Modify(netIn.ReadInt32());
+                                break;
                             default:
                                 //Got unknown message type
                                 break;
@@ -198,7 +204,7 @@ namespace SpajsFajt
                     if (c.Dead)
                         c.TimeDead += gameTime.ElapsedGameTime.Milliseconds;
 
-                    if (c.TimeDead >= 5000)
+                    if (c.TimeDead >= 2500)
                     {
                         c.Respawn();
                         var netOut = netServer.CreateMessage();
