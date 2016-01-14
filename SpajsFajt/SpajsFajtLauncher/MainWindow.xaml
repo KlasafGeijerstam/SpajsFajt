@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SpajsFajtLauncher"
         mc:Ignorable="d"
-        Title="MainWindow" Height="184.351" Width="145.61">
+        Title="MainWindow" Height="184.351" Width="349.713">
     <Grid>
         <Button x:Name="button" Content="Launch" HorizontalAlignment="Left" Margin="30,118,0,0" VerticalAlignment="Top" Width="75"/>
         <CheckBox x:Name="checkBox" Content="Host" HorizontalAlignment="Left" Margin="63,98,0,0" VerticalAlignment="Top"/>
@@ -15,6 +15,7 @@
         <Label x:Name="label" Content="Ip" HorizontalAlignment="Left" Margin="10,8,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.51,-0.649"/>
         <Label x:Name="label_Copy" Content="Port" HorizontalAlignment="Left" Margin="10,42,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.51,-0.649"/>
         <Label x:Name="label_Copy1" Content="Name" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.51,-0.649"/>
+        <Image x:Name="instr_png" Margin="135,10,6,46" Source="instr.png" Stretch="Fill"/>
 
     </Grid>
 </Window>
